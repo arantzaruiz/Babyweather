@@ -3,22 +3,25 @@ package com.example.WeatherMama
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.squareup.picasso.Picasso
 import org.json.JSONObject
 import java.net.URL
 import kotlin.math.round
+
+
 
 class MainActivity : AppCompatActivity(), LocationListener {
 
@@ -56,6 +59,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         getLocation()
+
+        //Picasso.get().load("http://openweathermap.org/img/wn/10d@4x.png").into(findViewById<ImageView>(R.id.weatherIconContainer))
     }
 
     inner class weathertask() : AsyncTask<String, Void, String>() {
@@ -77,6 +82,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
             return response
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             try {
@@ -112,9 +118,18 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 //findViewById<TextView>(R.id.wind).text = windSpeed
                 //findViewById<TextView>(R.id.pressure).text = pressure
                 //findViewById<TextView>(R.id.humidity).text = humidity
-
                 findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
                 findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.VISIBLE
+
+                val bm = Picasso.get().load("http://openweathermap.org/img/wn/10d@4x.png").get()
+
+                val bitmapd: BitmapDrawable = BitmapDrawable(bm)
+
+
+                findViewById<ImageView>(R.id.weatherIconContainer).setImageDrawable(bitmapd)
+
+           // Picasso.get().load("http://openweathermap.org/img/wn/10d@4x.png").into(findViewById<ImageView>(R.id.weatherIconContainer))
+
             }
             catch (e: Exception)
             {
@@ -122,8 +137,16 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 findViewById<TextView>(R.id.errortext).visibility = View.VISIBLE
             }
         }
+
+
+
+
+
+
+
         fun roundToInt(text: String) : String {
             return round(text.toDouble()).toInt().toString()
         }
+
     }
     }

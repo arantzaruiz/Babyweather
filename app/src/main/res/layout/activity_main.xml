@@ -29,7 +29,6 @@
                 android:layout_height="wrap_content">
 
             </TextView>
-
             <TextView
                 android:id="@+id/updated_at"
                 android:textSize="14sp"
@@ -39,7 +38,37 @@
                 android:layout_height="wrap_content">
 
             </TextView>
+
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/weatherContainer"
+            android:layout_width="match_parent"
+            android:layout_height="227dp"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="90dp">
+
+            </Space>
+            <ImageView
+                android:id="@+id/weatherIconContainer"
+                android:src="@drawable/a10d4x"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center">
+
+            </ImageView>
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="15dp">
+
+            </Space>
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/overviewContainer"
             android:orientation="vertical"
@@ -58,7 +87,7 @@
             </TextView>
             <TextView
                 android:id="@+id/temp"
-                android:textSize="90sp"
+                android:textSize="80sp"
                 android:fontFamily="sans-serif-thin"
                 android:layout_gravity="center"
                 android:text="..."
@@ -77,7 +106,9 @@
 
             </TextView>
             <Space android:layout_width="wrap_content"
-                android:layout_height="15dp"></Space>
+                android:layout_height="15dp">
+
+            </Space>
             <LinearLayout
                 android:orientation="horizontal"
                 android:gravity="center"
@@ -102,8 +133,16 @@
 
                 </TextView>
             </LinearLayout>
-        </LinearLayout>
+            <Space android:layout_width="wrap_content"
+                android:layout_height="25dp">
 
+            </Space>
+
+        </LinearLayout>
+        <Space android:layout_width="wrap_content"
+            android:layout_height="15dp">
+
+        </Space>
         <LinearLayout
             android:id="@+id/detailsContainer"
             android:orientation="vertical"
@@ -119,16 +158,21 @@
                     android:orientation="vertical"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:padding="25dp"
-                    android:background="#cd5c5c"
+                    android:padding="5dp"
+                    android:background="@drawable/my_border"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
 
+                    <Space android:layout_height="10dp"
+                        android:layout_width="wrap_content">
+
+                    </Space>
+
                     <TextView
                         android:id="@+id/innerlayer"
-                        android:textSize="12sp"
+                        android:textSize="15dp"
                         android:text="Inner Layer"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                     </TextView>
@@ -137,14 +181,13 @@
 
                         </Space>
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/sunrise"
-                        app:tint="#FFF">
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/bl5orless">
 
                     </ImageView>
-                    <Space android:layout_height="wrap_content"
-                        android:layout_width="5dp">
+                    <Space android:layout_width="wrap_content"
+                        android:layout_height="15dp">
 
                     </Space>
                 </LinearLayout>
@@ -157,16 +200,20 @@
                     android:orientation="vertical"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:padding="25dp"
-                    android:background="#cd5c5c"
+                    android:padding="5dp"
+                    android:background="@drawable/my_border"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
 
+                    <Space android:layout_height="10dp"
+                        android:layout_width="wrap_content">
+
+                    </Space>
                     <TextView
                         android:id="@+id/secondlayer"
-                        android:textSize="12dp"
+                        android:textSize="15dp"
                         android:text="2nd Layer"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                     </TextView>
@@ -174,15 +221,14 @@
                         android:layout_width="wrap_content">
                     </Space>
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/sunrise"
-                        app:tint="#FFF">
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/sl5orless">
 
                     </ImageView>
-                        <Space android:layout_height="wrap_content"
-                        android:layout_width="5dp">
-                        </Space>
+                    <Space android:layout_width="wrap_content"
+                        android:layout_height="15dp">
+                    </Space>
                 </LinearLayout>
                     <Space android:layout_width="10dp"
                     android:layout_height="wrap_content">
@@ -191,16 +237,20 @@
                     android:orientation="vertical"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:padding="25dp"
-                    android:background="#cd5c5c"
+                    android:padding="5dp"
+                    android:background="@drawable/my_border"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
 
+                    <Space android:layout_height="10dp"
+                        android:layout_width="wrap_content">
+
+                    </Space>
                     <TextView
                         android:id="@+id/outerlayer"
-                        android:textSize="12sp"
+                        android:textSize="15dp"
                         android:text="Outer Layer"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                     </TextView>
@@ -209,14 +259,13 @@
 
                         </Space>
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/sunrise"
-                        app:tint="#FFF">
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ol5orless">
 
                     </ImageView>
-                    <Space android:layout_height="wrap_content"
-                        android:layout_width="5dp">
+                    <Space android:layout_width="wrap_content"
+                        android:layout_height="15dp">
 
                     </Space>
                 </LinearLayout>
@@ -232,7 +281,7 @@
             </LinearLayout>
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"></Space>
+                android:layout_height="30dp"></Space>
 
         </LinearLayout>
 
