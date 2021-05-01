@@ -3,7 +3,6 @@ package com.example.WeatherMama
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -16,9 +15,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
+import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONObject
 import java.net.URL
+import java.net.URLEncoder
 import kotlin.math.round
 
 
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     var latitude: Double = 42.8
     var longitude: Double = -8.0
     val API: String = "12f7eab7644e78873e2a5a0db47da7ca"
+    var weatherIconURL: String = ""
 
 
     private fun getLocation() {
@@ -59,8 +63,27 @@ class MainActivity : AppCompatActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         getLocation()
+    }
 
-        //Picasso.get().load("http://openweathermap.org/img/wn/10d@4x.png").into(findViewById<ImageView>(R.id.weatherIconContainer))
+
+
+    /**
+     * Downloads an icon from openWeather according to the icon code and shows it in the interface.
+     * @param code string containing the icon code
+     */
+    fun showWeatherIcon (code : String) {
+        val weatherImageView: ImageView = findViewById<ImageView>(R.id.weatherIconContainer)
+        val thisUrl = "https://openweathermap.org/img/wn/" +code+ "@4x.png"
+        if (thisUrl == weatherIconURL)
+            return
+        weatherIconURL = thisUrl
+        if (weatherIconURL !== null) {
+            Glide.with(this)
+                .load(weatherIconURL)
+                .into(weatherImageView)
+        } else {
+            weatherImageView.setImageResource(R.drawable.ic_launcher_background)
+        }
     }
 
     inner class weathertask() : AsyncTask<String, Void, String>() {
@@ -104,7 +127,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 val windSpeed = wind.getString("speed")
                 val weatherDescription = weather.getString("description")
                 val address = jsonObj.getString("name")+", "+sys.getString("country")
-
+                val weatherIcon = weather.getString("icon")
 
                 findViewById<TextView>(R.id.address).text = address
                 //findViewById<TextView>(R.id.updated_at).text = updatedAtText
@@ -121,14 +144,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
                 findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.VISIBLE
 
-                val bm = Picasso.get().load("http://openweathermap.org/img/wn/10d@4x.png").get()
-
-                val bitmapd: BitmapDrawable = BitmapDrawable(bm)
-
-
-                findViewById<ImageView>(R.id.weatherIconContainer).setImageDrawable(bitmapd)
-
-           // Picasso.get().load("http://openweathermap.org/img/wn/10d@4x.png").into(findViewById<ImageView>(R.id.weatherIconContainer))
+                showWeatherIcon (weatherIcon)
 
             }
             catch (e: Exception)
@@ -139,14 +155,14 @@ class MainActivity : AppCompatActivity(), LocationListener {
         }
 
 
-
-
-
-
-
+        /**
+         * Rounds a number to the closest integer.
+         * @param text string containing a number (any type).
+         * @return a string containing the number in text rounded to the closes integer.
+         */
         fun roundToInt(text: String) : String {
             return round(text.toDouble()).toInt().toString()
         }
 
     }
-    }
+}
