@@ -181,6 +181,7 @@
 
                         </Space>
                     <ImageView
+                        android:id="@+id/innerlayerImageView"
                         android:layout_width="80dp"
                         android:layout_height="100dp"
                         android:src="@drawable/bl5orless">
@@ -221,6 +222,7 @@
                         android:layout_width="wrap_content">
                     </Space>
                     <ImageView
+                        android:id="@+id/secondlayerImageView"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/sl5orless">
@@ -259,6 +261,7 @@
 
                         </Space>
                     <ImageView
+                        android:id="@+id/outerlayerImageView"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:src="@drawable/ol5orless">
