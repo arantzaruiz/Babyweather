@@ -11,281 +11,472 @@
 
     <RelativeLayout
         android:id="@+id/mainContainer"
-        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:id="@+id/addressContainer"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/address"
-                android:text="Location"
-                android:textSize="24sp"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </TextView>
-            <TextView
-                android:id="@+id/updated_at"
-                android:textSize="14sp"
-                android:text="Updated at"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </TextView>
-
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/weatherContainer"
             android:layout_width="match_parent"
-            android:layout_height="227dp"
-            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="top"
             android:orientation="vertical">
 
-            <Space
+            <TextView
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
-                android:layout_height="90dp">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Loading location"
+                android:textSize="24sp">
 
-            </Space>
-            <ImageView
-                android:id="@+id/weatherIconContainer"
-                android:src="@drawable/a10d4x"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_gravity="center">
+            </TextView>
 
-            </ImageView>
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="15dp">
 
             </Space>
 
+            <ImageView
+                android:id="@+id/weatherIconContainer"
+                android:layout_width="82dp"
+                android:layout_height="78dp"
+                android:layout_gravity="center"
+                android:src="@drawable/a10d4x">
+
+            </ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/addressContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/weatherContainer"
+            android:layout_marginTop="1dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading"
+                android:textSize="18sp"
+                tools:layout_conversion_absoluteHeight="24dp"
+                tools:layout_conversion_absoluteWidth="64dp"
+                tools:layout_editor_absoluteX="174dp"
+                tools:layout_editor_absoluteY="25dp">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:orientation="vertical"
+                android:text="..."
+                android:textSize="80sp">
+
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/overviewContainer"
-            android:orientation="vertical"
-            android:layout_centerInParent="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addressContainer"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/status"
-                android:textSize="18sp"
-                android:layout_gravity="center"
-                android:text="Loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </TextView>
-            <TextView
-                android:id="@+id/temp"
-                android:textSize="80sp"
-                android:fontFamily="sans-serif-thin"
-                android:layout_gravity="center"
-                android:text="..."
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </TextView>
             <TextView
                 android:id="@+id/feelsLike"
-                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
+                android:gravity="center"
                 android:text="Feels like"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:textSize="18dp">
 
             </TextView>
-            <Space android:layout_width="wrap_content"
+
+            <Space
+                android:layout_width="wrap_content"
                 android:layout_height="15dp">
 
             </Space>
+
             <LinearLayout
-                android:orientation="horizontal"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/temp_min"
-                    android:text="Min temp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:text="Min temp">
 
                 </TextView>
-                <Space android:layout_width="50dp"
-                android:layout_height="wrap_content"></Space>
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"></Space>
 
                 <TextView
                     android:id="@+id/temp_max"
-                    android:text="Max temp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:text="Max temp">
 
                 </TextView>
             </LinearLayout>
-            <Space android:layout_width="wrap_content"
-                android:layout_height="25dp">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detailsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/overviewContainer"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="1dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/yourbabysoutfit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Your baby's outfit today:"
+                android:textSize="18dp">
+
+            </TextView>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="30dp">
 
             </Space>
 
-        </LinearLayout>
-        <Space android:layout_width="wrap_content"
-            android:layout_height="15dp">
-
-        </Space>
-        <LinearLayout
-            android:id="@+id/detailsContainer"
-            android:orientation="vertical"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <LinearLayout
-                android:orientation="horizontal"
-                android:weightSum="3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:background="@drawable/my_border"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
-                    <Space android:layout_height="10dp"
-                        android:layout_width="wrap_content">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.05"
+                    android:background="@drawable/my_border"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
 
                     </Space>
 
                     <TextView
                         android:id="@+id/innerlayer"
-                        android:textSize="15dp"
-                        android:text="Inner Layer"
-                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    </TextView>
-                        <Space android:layout_height="10dp"
-                        android:layout_width="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:text="Inner Layer"
+                        android:textSize="16dp"></TextView>
 
-                        </Space>
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
+
+                    </Space>
+
                     <ImageView
                         android:layout_width="80dp"
-                        android:layout_height="100dp"
+                        android:layout_height="60dp"
                         android:src="@drawable/bl5orless">
 
                     </ImageView>
-                    <Space android:layout_width="wrap_content"
+
+                    <Space
+                        android:layout_width="wrap_content"
                         android:layout_height="15dp">
 
                     </Space>
                 </LinearLayout>
 
-                <Space android:layout_width="10dp"
+                <Space
+                    android:layout_width="10dp"
                     android:layout_height="wrap_content">
 
                 </Space>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:background="@drawable/my_border"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
 
-                    <Space android:layout_height="10dp"
-                        android:layout_width="wrap_content">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.05"
+                    android:background="@drawable/my_border"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
 
                     </Space>
+
                     <TextView
                         android:id="@+id/secondlayer"
-                        android:textSize="15dp"
-                        android:text="2nd Layer"
-                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    </TextView>
-                    <Space android:layout_height="10dp"
-                        android:layout_width="wrap_content">
-                    </Space>
+                        android:layout_height="wrap_content"
+                        android:text="2nd Layer"
+                        android:textSize="16dp"></TextView>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp"></Space>
+
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
                         android:src="@drawable/sl5orless">
 
                     </ImageView>
-                    <Space android:layout_width="wrap_content"
-                        android:layout_height="15dp">
-                    </Space>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"></Space>
                 </LinearLayout>
-                    <Space android:layout_width="10dp"
-                    android:layout_height="wrap_content">
-                    </Space>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"></Space>
+
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:background="@drawable/my_border"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.05"
+                    android:background="@drawable/my_border"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
-                    <Space android:layout_height="10dp"
-                        android:layout_width="wrap_content">
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
 
                     </Space>
+
                     <TextView
                         android:id="@+id/outerlayer"
-                        android:textSize="15dp"
-                        android:text="Outer Layer"
-                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    </TextView>
-                        <Space android:layout_height="10dp"
-                        android:layout_width="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:text="Outer Layer"
+                        android:textSize="16dp"></TextView>
 
-                        </Space>
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
+
+                    </Space>
+
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
                         android:src="@drawable/ol5orless">
 
                     </ImageView>
-                    <Space android:layout_width="wrap_content"
+
+                    <Space
+                        android:layout_width="wrap_content"
                         android:layout_height="15dp">
 
                     </Space>
                 </LinearLayout>
-                <Space android:layout_width="10dp"
+
+                <Space
+                    android:layout_width="10dp"
                     android:layout_height="wrap_content">
 
                 </Space>
-                <Space android:layout_width="10dp"
+
+                <Space
+                    android:layout_width="10dp"
                     android:layout_height="wrap_content">
 
                 </Space>
 
             </LinearLayout>
+
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"></Space>
+                android:layout_height="15dp">
+
+            </Space>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.05"
+                    android:background="@drawable/my_border"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
+
+                    </Space>
+
+                    <TextView
+                        android:id="@+id/innerlayer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Inner Layer"
+                        android:textSize="16dp"></TextView>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
+
+                    </Space>
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/bl5orless">
+
+                    </ImageView>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp">
+
+                    </Space>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content">
+
+                </Space>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.05"
+                    android:background="@drawable/my_border"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
+
+                    </Space>
+
+                    <TextView
+                        android:id="@+id/secondlayer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2nd Layer"
+                        android:textSize="16dp"></TextView>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp"></Space>
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/sl5orless">
+
+                    </ImageView>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"></Space>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"></Space>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.05"
+                    android:background="@drawable/my_border"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
+
+                    </Space>
+
+                    <TextView
+                        android:id="@+id/outerlayer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Outer Layer"
+                        android:textSize="16dp"></TextView>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp">
+
+                    </Space>
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ol5orless">
+
+                    </ImageView>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp">
+
+                    </Space>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content">
+
+                </Space>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content">
+
+                </Space>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/loader"
         android:layout_centerInParent="true"

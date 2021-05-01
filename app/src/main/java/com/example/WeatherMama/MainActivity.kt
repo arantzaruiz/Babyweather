@@ -16,12 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import com.bumptech.glide.annotation.GlideModule
-import com.bumptech.glide.module.AppGlideModule
-import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONObject
 import java.net.URL
-import java.net.URLEncoder
 import kotlin.math.round
 
 
@@ -114,7 +110,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 val sys = jsonObj.getJSONObject("sys")
                 val wind = jsonObj.getJSONObject("wind")
                 val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
-                val updatedAt:Long = jsonObj.getLong("dt")
+                //val updatedAt:Long = jsonObj.getLong("dt")
                 //val updatedAtText = "Updated at: "+SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(updatedAt*1000)
                 val temp = roundToInt(main.getString("temp"))+"°C"
                 val feelsLike = "Feels like "+roundToInt(main.getString("feels_like"))+"°C"
@@ -130,7 +126,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 val weatherIcon = weather.getString("icon")
 
                 findViewById<TextView>(R.id.address).text = address
-                //findViewById<TextView>(R.id.updated_at).text = updatedAtText
+                //findViewById<TextView>(R.id.updated_at).text = updatedAt
                 findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
                 findViewById<TextView>(R.id.feelsLike).text = feelsLike
                 findViewById<TextView>(R.id.temp).text = temp
