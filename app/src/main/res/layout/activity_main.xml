@@ -121,7 +121,7 @@
             android:layout_above="@+id/detailsContainer"
             android:layout_below="@+id/overviewContainer"
             android:layout_marginTop="17dp"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:weightSum="6">
 
@@ -548,67 +548,6 @@
                 android:layout_height="wrap_content"></Space>
 
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/detailsContainer"
-            android:layout_marginBottom="18dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:gravity="center"
-                android:background="@drawable/my_border"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/switchtobedtime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Switch to bedtime"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="30dp"
-                android:layout_height="wrap_content">
-
-            </Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:gravity="center"
-                android:background="@drawable/my_border"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/switchlocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Switch location"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content">
-
-            </Space>
         </LinearLayout>
 
         <LinearLayout
