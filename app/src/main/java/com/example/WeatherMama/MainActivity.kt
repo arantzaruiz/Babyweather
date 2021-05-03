@@ -20,7 +20,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -35,9 +39,9 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
     val API: String = "12f7eab7644e78873e2a5a0db47da7ca"
     var weatherIconURL: String = "" //Used to store the current icon URL and prevent it form downloading if we already have it.
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var areaText: String = ""
     private var areaTextOpenWeather: String = ""
-
+    // Instantiate the RequestQueue.
+    var queue : RequestQueue? = null
 
     //Define the temperature ranges.
     enum class TemperatureRange { //enum assigns numeric values from 0 to 6 to the weather statuses below.
@@ -78,6 +82,7 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         iconsOuterLayer.add("ol20to25")
         iconsOuterLayer.add("ol25plus")
 
+        queue = Volley.newRequestQueue(this)
     }
 
 
@@ -152,8 +157,8 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
                 var lastLocation = task.result
                 latitude = (lastLocation)!!.latitude
                 longitude = (lastLocation)!!.longitude
-                weathertask().execute()
-                reverseGeoCode().execute()
+                requestWeather()
+                requestGeoCode()
 
             } else {
                 Log.w(TAG, "getLastLocation:exception", task.exception)
@@ -266,26 +271,15 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         }
     }
 
-    inner class weathertask() : AsyncTask<String, Void, String>() {
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
 
-        override fun doInBackground(vararg p0: String?): String {
-            var response: String
-            try {
-                response = URL("https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$API").readText(Charsets.UTF_8)
-            } catch (e: Exception) {
-                response = ""
-            }
-            return response
-        }
+    private fun requestWeather() {
+       // val queue = Volley.newRequestQueue(this)
+        val url = "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$API"
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-            try {
-                val jsonObj = JSONObject(result)
+        // Request a string response from the provided URL.
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            Response.Listener<String> { response ->
+                val jsonObj = JSONObject(response)
                 val main = jsonObj.getJSONObject("main")
                 val sys = jsonObj.getJSONObject("sys")
                 val wind = jsonObj.getJSONObject("wind")
@@ -295,102 +289,87 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
                 val temp = roundToInt(tempDouble) + "°C"
                 val feelsLikeDouble = main.getString("feels_like")
                 val feelsLike = "Feels like " + roundToInt(feelsLikeDouble) + "°C"
-                val tempMin = "Min Temp: " + roundToInt(main.getString("temp_min")) + "°C"
-                val tempMax = "Max Temp: " + roundToInt((main.getString("temp_max"))) + "°C"
-                val pressure = main.getString("pressure")
-                val humidity = main.getString("humidity")
-                val sunrise: String = sys.getString("sunrise")
-                val sunset: String = sys.getString("sunset")
-                val windSpeed = wind.getString("speed")
                 val weatherDescription = weather.getString("description")
                 val address = jsonObj.getString("name") + ", " + sys.getString("country")
                 val weatherIcon = weather.getString("icon")
 
-                //findViewById<TextView>(R.id.address).text = address
-                //findViewById<TextView>(R.id.updated_at).text = updatedAt
                 findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
                 findViewById<TextView>(R.id.feelsLike).text = feelsLike
                 findViewById<TextView>(R.id.temp).text = temp
-                //findViewById<TextView>(R.id.temp_min).text = tempMin
-                //findViewById<TextView>(R.id.temp_max).text = tempMax
+
                 showWeatherIcon(weatherIcon)
                 updateTemperatureRange(feelsLikeDouble, tempDouble)
 
                 areaTextOpenWeather = address;
+            },
+            Response.ErrorListener {
+                return@ErrorListener
+            })
 
-            } catch (e: Exception) {
-                return
-            }
-        }
+        // Add the request to the RequestQueue.
+        queue!!.add(stringRequest)
     }
 
-    //This class takes latitude and longitude and updates area text. If response fails, it takes OpenWeather-s area text.
-    inner class reverseGeoCode() : AsyncTask<String, Void, String>() {
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
+    private fun requestGeoCode() {
 
-        override fun doInBackground(vararg p0: String?): String {
-            var response: String
-            try {
-                response = URL("https://nominatim.openstreetmap.org/reverse?lat=$latitude&lon=$longitude&zoom=18&addressdetails=1&format=json").readText(Charsets.UTF_8)
-            } catch (e: Exception) {
-                response = ""
-                areaText = areaTextOpenWeather
-            }
-            return response
-        }
+        // Instantiate the RequestQueue.
+       // val queue = Volley.newRequestQueue(this)
+        val url = "https://nominatim.openstreetmap.org/reverse?lat=$latitude&lon=$longitude&zoom=18&addressdetails=1&format=json"
 
-        //Finds a more precise location than Openweather, if available.
-        @RequiresApi(Build.VERSION_CODES.O)
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-            try {
-                val jsonObj = JSONObject(result)
-                val addr = jsonObj.getJSONObject("address")
+        // Request a string response from the provided URL.
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+
+                var replyJson = JSONObject(response)
+                val add = replyJson.getJSONObject("address")
+                try {
+                    val local = add.getString("neighbourhood")
+                    val city = add.getString("city")
+                    findViewById<TextView>(R.id.address).text = local + ", " + city
+                    return@StringRequest
+                } catch (e: java.lang.Exception) {
+                }
 
                 try {
-                    val local = addr.getString("neighbourhood")
-                    val city = addr.getString("city")
+                    val local = add.getString("suburb")
+                    val city = add.getString("city")
                     findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return
+                    return@StringRequest
                 } catch (e: java.lang.Exception) {
                 }
+
                 try {
-                    val local = addr.getString("suburb")
-                    val city = addr.getString("city")
+                    val local = add.getString("town")
+                    val city = add.getString("city")
                     findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return
+                    return@StringRequest
                 } catch (e: java.lang.Exception) {
                 }
+
                 try {
-                    val local = addr.getString("town")
-                    val city = addr.getString("city")
+                    val local = add.getString("village")
+                    val city = add.getString("city")
                     findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return
+                    return@StringRequest
                 } catch (e: java.lang.Exception) {
                 }
+
                 try {
-                    val local = addr.getString("village")
-                    val city = addr.getString("city")
+                    val local = add.getString("hamlet")
+                    val city = add.getString("city")
                     findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return
+                    return@StringRequest
                 } catch (e: java.lang.Exception) {
                 }
-                try {
-                    val local = addr.getString("hamlet")
-                    val city = addr.getString("city")
-                    findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return
-                } catch (e: java.lang.Exception) {
-                }
-                areaText = areaTextOpenWeather
-                findViewById<TextView>(R.id.address).text = areaText
-            } catch (e: Exception) {
-                areaText = areaTextOpenWeather
-                findViewById<TextView>(R.id.address).text = areaText
-            }
-        }
+
+                findViewById<TextView>(R.id.address).text = areaTextOpenWeather
+            },
+            {
+                findViewById<TextView>(R.id.address).text = areaTextOpenWeather
+            })
+
+        // Add the request to the RequestQueue.
+        queue!!.add(stringRequest)
     }
 
     /**
