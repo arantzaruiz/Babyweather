@@ -29,8 +29,7 @@ import java.net.URL
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {//}, LocationListener {
-
-    val CITY: String = "Toronto,CA"
+    //Global vars used in the entire class.
     var latitude: Double = 42.8
     var longitude: Double = -8.0
     val API: String = "12f7eab7644e78873e2a5a0db47da7ca"
@@ -41,11 +40,11 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
 
 
     //Define the temperature ranges.
-    enum class TemperatureRange {
+    enum class TemperatureRange { //enum assigns numeric values from 0 to 6 to the weather statuses below.
         ExtraCold, Cold, Chilly, Mild, Warm, Hot, Undefined
     }
 
-    //Store the current temperature range in this variable.
+    //Store the current temperature range in this variable. We use "Undefined" by default.
     var temperatureRange: TemperatureRange = TemperatureRange.Undefined
 
     //List with the names of the icons used for the different temperature ranges. This lists of names are empty yet, call the function initVariables to initialize everything.
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
 
 
     /**
-     * Initializes all the variables. This method must be called from OnCreate
+     * Initializes the 3 variables above. Must be listed in the same order as ExtraCold,..., Undefined. This method must be called from OnCreate.
      */
     private fun initVariables() {
         iconsBaseLayer.add("bl5orless")
@@ -78,7 +77,6 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         iconsOuterLayer.add("ol15to20")
         iconsOuterLayer.add("ol20to25")
         iconsOuterLayer.add("ol25plus")
-
 
     }
 
@@ -118,7 +116,7 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
     }
 
     /**
-     * Gets the id of a resource from its name.
+     * Gets the id of a resource (icons, in this case) from its name.
      * @param context from where we call it.
      * @param imageName String containing the name of the file.
      * @returns The id number of that resource.
@@ -127,6 +125,15 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         return context.resources.getIdentifier("drawable/$imageName", null, context.packageName)
     }
 
+    //Launches layout and initializes variables at the beginning.
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        initVariables()
+    }
+
+    //Makes sure you have access permissions (otherwise, requests it) and gives you the last location. Saves battery.
     public override fun onStart() {
         super.onStart()
         if (!checkPermissions()) {
@@ -138,6 +145,7 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         }
     }
 
+    //Request a GPS location in the background and, when successful, stores latitude, longitude, and executes.
     private fun getLastLocation() {
         fusedLocationClient?.lastLocation!!.addOnCompleteListener(this) { task ->
             if (task.isSuccessful && task.result != null) {
@@ -154,6 +162,7 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         }
     }
 
+    // The following set of functions ensures we have the right permissions. Otherwise, it requests them.
     private fun checkPermissions(): Boolean {
         val permissionState = ActivityCompat.checkSelfPermission(
                 this,
@@ -237,13 +246,6 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        initVariables()
-    }
-
 
     /**
      * Downloads an icon from openWeather according to the icon code and shows it in the interface.
@@ -309,8 +311,8 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
                 findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
                 findViewById<TextView>(R.id.feelsLike).text = feelsLike
                 findViewById<TextView>(R.id.temp).text = temp
-                findViewById<TextView>(R.id.temp_min).text = tempMin
-                findViewById<TextView>(R.id.temp_max).text = tempMax
+                //findViewById<TextView>(R.id.temp_min).text = tempMin
+                //findViewById<TextView>(R.id.temp_max).text = tempMax
                 showWeatherIcon(weatherIcon)
                 updateTemperatureRange(feelsLikeDouble, tempDouble)
 
@@ -322,6 +324,7 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         }
     }
 
+    //This class takes latitude and longitude and updates area text. If response fails, it takes OpenWeather-s area text.
     inner class reverseGeoCode() : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
@@ -338,9 +341,9 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
             return response
         }
 
+        //Finds a more precise location than Openweather, if available.
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onPostExecute(result: String?) {
-            findViewById<TextView>(R.id.address).text = "post!"
             super.onPostExecute(result)
             try {
                 val jsonObj = JSONObject(result)
@@ -385,7 +388,7 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
                 findViewById<TextView>(R.id.address).text = areaText
             } catch (e: Exception) {
                 areaText = areaTextOpenWeather
-                findViewById<TextView>(R.id.address).text = "Excp!"
+                findViewById<TextView>(R.id.address).text = areaText
             }
         }
     }

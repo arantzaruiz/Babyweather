@@ -29,15 +29,24 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Loading location"
-                android:textSize="24sp">
+                android:textSize="24dp">
 
             </TextView>
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="15dp">
+                android:layout_height="1dp">
 
             </Space>
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="..."
+                android:textSize="22dp">
+
+            </TextView>
 
             <ImageView
                 android:id="@+id/weatherIconContainer"
@@ -62,8 +71,8 @@
                 android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading"
-                android:textSize="18sp"
+                android:text="Loading status"
+                android:textSize="16sp"
                 tools:layout_conversion_absoluteHeight="24dp"
                 tools:layout_conversion_absoluteWidth="64dp"
                 tools:layout_editor_absoluteX="174dp"
@@ -78,18 +87,19 @@
                 android:fontFamily="sans-serif-thin"
                 android:orientation="vertical"
                 android:text="..."
-                android:textSize="80sp">
+                android:textSize="70sp">
 
             </TextView>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/overviewContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/addressContainer"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="1dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -99,52 +109,514 @@
                 android:fontFamily="sans-serif"
                 android:gravity="center"
                 android:text="Feels like"
-                android:textSize="18dp">
+                android:textSize="16dp">
 
             </TextView>
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="15dp">
+        </RelativeLayout>
 
-            </Space>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/detailsContainer"
+            android:layout_below="@+id/overviewContainer"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="18dp"
+            android:orientation="horizontal"
+            android:weightSum="6">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.8"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/temp_min"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/time1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Min temp">
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
 
                 </TextView>
 
                 <Space
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"></Space>
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
 
                 <TextView
-                    android:id="@+id/temp_max"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/temp1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Max temp">
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
 
                 </TextView>
             </LinearLayout>
 
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content">
+
+            </Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/time2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/temp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"></Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/time3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/temp3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"></Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/time4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/temp4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"></Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/time5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/temp5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"></Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/time6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/temp6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"></Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/time7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/temp7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"></Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/time8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/temp8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"></Space>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"></Space>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/detailsContainer"
+            android:layout_marginBottom="18dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/my_border"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/switchtobedtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Switch to bedtime"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="30dp"
+                android:layout_height="wrap_content">
+
+            </Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/my_border"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/switchlocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Switch location"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content">
+
+            </Space>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/detailsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/overviewContainer"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="18dp"
             android:layout_marginBottom="1dp"
             android:orientation="vertical">
 
@@ -160,7 +632,93 @@
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="30dp">
+                android:layout_height="10dp">
+
+            </Space>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.02"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/innerlayer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INNER LAYER"
+                        android:textSize="12dp">
+
+                    </TextView>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content">
+
+                </Space>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.02"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/secondlayer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SECOND LAYER"
+                        android:textSize="12dp">
+
+                    </TextView>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content">
+
+                </Space>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.02"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/outerlayer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OUTER LAYER"
+                        android:textSize="12dp">
+
+                    </TextView>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content">
+
+                </Space>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="1dp">
 
             </Space>
 
@@ -173,7 +731,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
+                    android:layout_weight="1.02"
                     android:background="@drawable/my_border"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -185,13 +743,6 @@
 
                     </Space>
 
-                    <TextView
-                        android:id="@+id/innerlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Inner Layer"
-                        android:textSize="16dp"></TextView>
-
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="10dp">
@@ -201,7 +752,7 @@
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/bl5orless">
+                        android:src="@drawable/bl15lesstop">
 
                     </ImageView>
 
@@ -221,7 +772,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
+                    android:layout_weight="1.02"
                     android:background="@drawable/my_border"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -233,13 +784,6 @@
 
                     </Space>
 
-                    <TextView
-                        android:id="@+id/secondlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2nd Layer"
-                        android:textSize="16dp"></TextView>
-
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="10dp"></Space>
@@ -247,7 +791,7 @@
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/sl5orless">
+                        android:src="@drawable/sl5lesstop">
 
                     </ImageView>
 
@@ -263,7 +807,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
+                    android:layout_weight="1.02"
                     android:background="@drawable/my_border"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -274,13 +818,6 @@
                         android:layout_height="10dp">
 
                     </Space>
-
-                    <TextView
-                        android:id="@+id/outerlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Outer Layer"
-                        android:textSize="16dp"></TextView>
 
                     <Space
                         android:layout_width="wrap_content"
@@ -301,12 +838,6 @@
 
                     </Space>
                 </LinearLayout>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
-
-                </Space>
 
                 <Space
                     android:layout_width="10dp"
@@ -318,9 +849,10 @@
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="15dp">
+                android:layout_height="10dp">
 
             </Space>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -330,7 +862,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
+                    android:layout_weight="1.02"
                     android:background="@drawable/my_border"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -342,13 +874,6 @@
 
                     </Space>
 
-                    <TextView
-                        android:id="@+id/innerlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Inner Layer"
-                        android:textSize="16dp"></TextView>
-
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="10dp">
@@ -358,7 +883,7 @@
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/bl5orless">
+                        android:src="@drawable/bl15lessbottom">
 
                     </ImageView>
 
@@ -378,7 +903,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
+                    android:layout_weight="1.02"
                     android:background="@drawable/my_border"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -390,37 +915,36 @@
 
                     </Space>
 
-                    <TextView
-                        android:id="@+id/secondlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2nd Layer"
-                        android:textSize="16dp"></TextView>
-
                     <Space
                         android:layout_width="wrap_content"
-                        android:layout_height="10dp"></Space>
+                        android:layout_height="10dp">
+
+                    </Space>
 
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/sl5orless">
+                        android:src="@drawable/sl5lessbottom">
 
                     </ImageView>
 
                     <Space
                         android:layout_width="wrap_content"
-                        android:layout_height="15dp"></Space>
+                        android:layout_height="15dp">
+
+                    </Space>
                 </LinearLayout>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="wrap_content"></Space>
+                    android:layout_height="wrap_content">
+
+                </Space>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
+                    android:layout_weight="1.02"
                     android:background="@drawable/my_border"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -431,13 +955,6 @@
                         android:layout_height="10dp">
 
                     </Space>
-
-                    <TextView
-                        android:id="@+id/outerlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Outer Layer"
-                        android:textSize="16dp"></TextView>
 
                     <Space
                         android:layout_width="wrap_content"
@@ -465,14 +982,7 @@
 
                 </Space>
 
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
-
-                </Space>
-
             </LinearLayout>
-
         </LinearLayout>
 
     </RelativeLayout>
