@@ -134,6 +134,61 @@
                 android:padding="5dp">
 
                 <TextView
+                    android:id="@+id/time0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="4pm"
+                    android:textSize="12dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"></Space>
+
+                <ImageView
+                    android:id="@+id/icon0"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/bl15lesstop">
+
+                </ImageView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/temp0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="8°C"
+                    android:textSize="12dp">
+
+                </TextView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content">
+
+            </Space>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
                     android:id="@+id/time1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,6 +204,7 @@
                     android:layout_height="5dp"></Space>
 
                 <ImageView
+                    android:id="@+id/icon1"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/bl15lesstop">
@@ -175,9 +231,7 @@
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="wrap_content">
-
-            </Space>
+                android:layout_height="wrap_content"></Space>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -203,6 +257,7 @@
                     android:layout_height="5dp"></Space>
 
                 <ImageView
+                    android:id="@+id/icon2"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/bl15lesstop">
@@ -255,6 +310,7 @@
                     android:layout_height="5dp"></Space>
 
                 <ImageView
+                    android:id="@+id/icon3"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/bl15lesstop">
@@ -307,6 +363,7 @@
                     android:layout_height="5dp"></Space>
 
                 <ImageView
+                    android:id="@+id/icon4"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/bl15lesstop">
@@ -359,6 +416,7 @@
                     android:layout_height="5dp"></Space>
 
                 <ImageView
+                    android:id="@+id/icon5"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/bl15lesstop">
@@ -411,6 +469,7 @@
                     android:layout_height="5dp"></Space>
 
                 <ImageView
+                    android:id="@+id/icon6"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/bl15lesstop">
@@ -463,6 +522,7 @@
                     android:layout_height="5dp"></Space>
 
                 <ImageView
+                    android:id="@+id/icon7"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/bl15lesstop">
@@ -477,58 +537,6 @@
 
                 <TextView
                     android:id="@+id/temp7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/time8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"

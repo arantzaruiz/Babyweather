@@ -2,20 +2,12 @@ package com.example.WeatherMama
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.icu.util.TimeUnit
+import android.icu.text.SimpleDateFormat
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
-import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.provider.Settings
-import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -23,7 +15,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -32,7 +23,8 @@ import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import org.json.JSONObject
-import java.net.URL
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
@@ -124,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                     latitude = location.latitude
                     requestWeather()
                     requestGeoCode()
+                    requestWeatherHourly()
                 }
             }
         }
@@ -231,6 +224,7 @@ class MainActivity : AppCompatActivity() {
                         longitude = location.longitude
                         requestWeather()
                         requestGeoCode()
+                        requestWeatherHourly()
                     }
                     //We didn't have any lastlocation saved, get a new location.
                     else {
@@ -260,40 +254,58 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Downloads an icon from openWeather according to the icon code and shows it in the interface.
+     * @param code string containing the icon code
+     * @param iconResource Int containing the resource
+     * @param iconQuality 4 for best quality, 2 medium, 1 low.
+     */
+    private fun showWeatherIcon(code: String, iconResource: Int, iconQuality: Int) {
+        val view: ImageView = findViewById<ImageView>(iconResource)
+        val thisUrl = "https://openweathermap.org/img/wn/" + code + "@2x.png"
+
+        if (thisUrl !== null) {
+            Glide.with(this)
+                    .load(thisUrl)
+                    .into(view)
+        } else {
+            view.setImageResource(R.drawable.ic_launcher_background)
+        }
+    }
+
 
     private fun requestWeather() {
-       // val queue = Volley.newRequestQueue(this)
         val url = "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$API"
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(Request.Method.GET, url,
-            Response.Listener<String> { response ->
-                val jsonObj = JSONObject(response)
-                val main = jsonObj.getJSONObject("main")
-                val sys = jsonObj.getJSONObject("sys")
-                val wind = jsonObj.getJSONObject("wind")
-                val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
+                { response ->
+                    val jsonObj = JSONObject(response)
+                    val main = jsonObj.getJSONObject("main")
+                    val sys = jsonObj.getJSONObject("sys")
+                    val wind = jsonObj.getJSONObject("wind")
+                    val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
 
-                val tempDouble = main.getString("temp")
-                val temp = roundToInt(tempDouble) + "°C"
-                val feelsLikeDouble = main.getString("feels_like")
-                val feelsLike = "Feels like " + roundToInt(feelsLikeDouble) + "°C"
-                val weatherDescription = weather.getString("description")
-                val address = jsonObj.getString("name") + ", " + sys.getString("country")
-                val weatherIcon = weather.getString("icon")
+                    val tempDouble = main.getString("temp")
+                    val temp = roundToInt(tempDouble) + "°C"
+                    val feelsLikeDouble = main.getString("feels_like")
+                    val feelsLike = "Feels like " + roundToInt(feelsLikeDouble) + "°C"
+                    val weatherDescription = weather.getString("description")
+                    val address = jsonObj.getString("name") + ", " + sys.getString("country")
+                    val weatherIcon = weather.getString("icon")
 
-                findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
-                findViewById<TextView>(R.id.feelsLike).text = feelsLike
-                findViewById<TextView>(R.id.temp).text = temp
+                    findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
+                    findViewById<TextView>(R.id.feelsLike).text = feelsLike
+                    findViewById<TextView>(R.id.temp).text = temp
 
-                showWeatherIcon(weatherIcon)
-                updateTemperatureRange(feelsLikeDouble, tempDouble)
+                    showWeatherIcon(weatherIcon)
+                    updateTemperatureRange(feelsLikeDouble, tempDouble)
 
-                areaTextOpenWeather = address;
-            },
-            Response.ErrorListener {
-                return@ErrorListener
-            })
+                    areaTextOpenWeather = address;
+                },
+                Response.ErrorListener {
+                    return@ErrorListener
+                })
 
         // Add the request to the RequestQueue.
         queue!!.add(stringRequest)
@@ -301,71 +313,153 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestGeoCode() {
 
-        // Instantiate the RequestQueue.
-       // val queue = Volley.newRequestQueue(this)
         val url = "https://nominatim.openstreetmap.org/reverse?lat=$latitude&lon=$longitude&zoom=18&addressdetails=1&format=json"
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(Request.Method.GET, url,
-            { response ->
+                { response ->
 
-                var replyJson = JSONObject(response)
-                val add = replyJson.getJSONObject("address")
-                try {
-                    val local = add.getString("neighbourhood")
-                    val city = add.getString("city")
-                    findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return@StringRequest
-                } catch (e: java.lang.Exception) {
-                }
+                    var replyJson = JSONObject(response)
+                    val add = replyJson.getJSONObject("address")
+                    try {
+                        val local = add.getString("neighbourhood")
+                        val city = add.getString("city")
+                        findViewById<TextView>(R.id.address).text = local + ", " + city
+                        return@StringRequest
+                    } catch (e: java.lang.Exception) {
+                    }
 
-                try {
-                    val local = add.getString("suburb")
-                    val city = add.getString("city")
-                    findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return@StringRequest
-                } catch (e: java.lang.Exception) {
-                }
+                    try {
+                        val local = add.getString("suburb")
+                        val city = add.getString("city")
+                        findViewById<TextView>(R.id.address).text = local + ", " + city
+                        return@StringRequest
+                    } catch (e: java.lang.Exception) {
+                    }
 
-                try {
-                    val local = add.getString("town")
-                    val city = add.getString("city")
-                    findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return@StringRequest
-                } catch (e: java.lang.Exception) {
-                }
+                    try {
+                        val local = add.getString("town")
+                        val city = add.getString("city")
+                        findViewById<TextView>(R.id.address).text = local + ", " + city
+                        return@StringRequest
+                    } catch (e: java.lang.Exception) {
+                    }
 
-                try {
-                    val local = add.getString("village")
-                    val city = add.getString("city")
-                    findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return@StringRequest
-                } catch (e: java.lang.Exception) {
-                }
+                    try {
+                        val local = add.getString("village")
+                        val city = add.getString("city")
+                        findViewById<TextView>(R.id.address).text = local + ", " + city
+                        return@StringRequest
+                    } catch (e: java.lang.Exception) {
+                    }
 
-                try {
-                    val local = add.getString("hamlet")
-                    val city = add.getString("city")
-                    findViewById<TextView>(R.id.address).text = local + ", " + city
-                    return@StringRequest
-                } catch (e: java.lang.Exception) {
-                }
+                    try {
+                        val local = add.getString("hamlet")
+                        val city = add.getString("city")
+                        findViewById<TextView>(R.id.address).text = local + ", " + city
+                        return@StringRequest
+                    } catch (e: java.lang.Exception) {
+                    }
 
-                try {
-                    val city = add.getString("city")
-                    findViewById<TextView>(R.id.address).text = city
-                    return@StringRequest
-                } catch (e: java.lang.Exception) {
-                }
-                findViewById<TextView>(R.id.address).text = areaTextOpenWeather
-            },
-            {
-                findViewById<TextView>(R.id.address).text = areaTextOpenWeather
-            })
+                    try {
+                        val city = add.getString("city")
+                        findViewById<TextView>(R.id.address).text = city
+                        return@StringRequest
+                    } catch (e: java.lang.Exception) {
+                    }
+                    findViewById<TextView>(R.id.address).text = areaTextOpenWeather
+                },
+                {
+                    findViewById<TextView>(R.id.address).text = areaTextOpenWeather
+                })
 
         // Add the request to the RequestQueue.
         queue!!.add(stringRequest)
     }
+
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun requestWeatherHourly() {
+        val url = "https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=current,minutely,daily,alerts&units=metric&appid=$API"
+
+        // Request a string response from the provided URL.
+        val stringRequest = StringRequest(Request.Method.GET, url,
+                { response ->
+                    val main = JSONObject(response)
+                    val array = main.getJSONArray("hourly")
+                    for (i in 0 until array.length()) {
+                        val thisHour = array.getJSONObject(i)
+
+                        //Time in UTC
+                        var utcTime = thisHour.getString("dt")
+                        val temp = roundToInt(thisHour.getString("temp")) + "°C"
+                        val realFeel = roundToInt(thisHour.getString("feels_like")) + "°C"
+                        val weather = thisHour.getJSONArray("weather").getJSONObject(0)
+                        val weatherDescription = weather.getString("description")
+                        val weatherIcon = weather.getString("icon")
+
+
+                        val date = Date(utcTime.toInt() * 1000L)
+                        val sdf = SimpleDateFormat("HH")
+                        utcTime = sdf.format(date)
+
+
+                        when (i) {
+                            0 -> {
+                                showWeatherIcon(weatherIcon, R.id.icon0, 1)
+                                findViewById<TextView>(R.id.time0).text = utcTime
+                                findViewById<TextView>(R.id.temp0).text = temp
+                            }
+                            1 -> {
+                                showWeatherIcon(weatherIcon, R.id.icon1, 1)
+                                findViewById<TextView>(R.id.time1).text = utcTime
+                                findViewById<TextView>(R.id.temp1).text = temp
+                            }
+                            2 -> {
+                                showWeatherIcon(weatherIcon, R.id.icon2, 1)
+                                findViewById<TextView>(R.id.time2).text = utcTime
+                                findViewById<TextView>(R.id.temp2).text = temp
+                            }
+                            3 -> {
+                                showWeatherIcon(weatherIcon, R.id.icon3, 1)
+                                findViewById<TextView>(R.id.time3).text = utcTime
+                                findViewById<TextView>(R.id.temp3).text = temp
+                            }
+                            4 -> {
+                                showWeatherIcon(weatherIcon, R.id.icon4, 1)
+                                findViewById<TextView>(R.id.time4).text = utcTime
+                                findViewById<TextView>(R.id.temp4).text = temp
+                            }
+                            5 -> {
+                                showWeatherIcon(weatherIcon, R.id.icon5, 1)
+                                findViewById<TextView>(R.id.time2).text = utcTime
+                                findViewById<TextView>(R.id.temp2).text = temp
+                            }
+                            6 -> {
+                                showWeatherIcon(weatherIcon, R.id.icon6, 1)
+                                findViewById<TextView>(R.id.time6).text = utcTime
+                                findViewById<TextView>(R.id.temp6).text = temp
+                            }
+                            7 -> {
+                                showWeatherIcon(weatherIcon, R.id.icon7, 1)
+                                findViewById<TextView>(R.id.time7).text = utcTime
+                                findViewById<TextView>(R.id.temp7).text = temp
+                            }
+                        }
+
+
+                    }
+                },
+                Response.ErrorListener {
+                    return@ErrorListener
+                })
+
+        // Add the request to the RequestQueue.
+        queue!!.add(stringRequest)
+    }
+
+
 
     /**
      * Rounds a number to the closest integer.
