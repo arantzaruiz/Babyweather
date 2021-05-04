@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.icu.util.TimeUnit
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -11,6 +12,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -20,28 +22,29 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import org.json.JSONObject
 import java.net.URL
 import kotlin.math.round
 
-class MainActivity : AppCompatActivity() {//}, LocationListener {
+class MainActivity : AppCompatActivity() {
     //Global vars used in the entire class.
     var latitude: Double = 42.8
     var longitude: Double = -8.0
-    val API: String = "12f7eab7644e78873e2a5a0db47da7ca"
-    var weatherIconURL: String = "" //Used to store the current icon URL and prevent it form downloading if we already have it.
+    private val API: String = "12f7eab7644e78873e2a5a0db47da7ca"
+    private var weatherIconURL: String = "" //Used to store the current icon URL and prevent it form downloading if we already have it.
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var areaTextOpenWeather: String = ""
-    // Instantiate the RequestQueue.
-    var queue : RequestQueue? = null
+    // Instantiate the RequestQueue used for Json requests.
+    private var queue : RequestQueue? = null
 
     //Define the temperature ranges.
     enum class TemperatureRange { //enum assigns numeric values from 0 to 6 to the weather statuses below.
@@ -49,12 +52,41 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
     }
 
     //Store the current temperature range in this variable. We use "Undefined" by default.
-    var temperatureRange: TemperatureRange = TemperatureRange.Undefined
+    private var temperatureRange: TemperatureRange = TemperatureRange.Undefined
 
     //List with the names of the icons used for the different temperature ranges. This lists of names are empty yet, call the function initVariables to initialize everything.
     private val iconsBaseLayer = ArrayList<String>()
     private val iconsSecondLayer = ArrayList<String>()
     private val iconsOuterLayer = ArrayList<String>()
+
+
+    private val requestingLocationUpdates : Boolean = true
+    private lateinit var locationCallback: LocationCallback
+    private var locationRequest : LocationRequest = LocationRequest.create()
+
+
+    override fun onResume() {
+        super.onResume()
+        if (requestingLocationUpdates) startLocationUpdates()
+    }
+
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest,
+                locationCallback,
+                Looper.getMainLooper())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopLocationUpdates()
+    }
+
+    private fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
 
 
     /**
@@ -83,6 +115,18 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         iconsOuterLayer.add("ol25plus")
 
         queue = Volley.newRequestQueue(this)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for (location in locationResult.locations){
+                    longitude = location.longitude
+                    latitude = location.latitude
+                    requestWeather()
+                    requestGeoCode()
+                }
+            }
+        }
     }
 
 
@@ -136,119 +180,64 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
         setContentView(R.layout.activity_main)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         initVariables()
+
+        if (ContextCompat.checkSelfPermission(this@MainActivity,
+                        Manifest.permission.ACCESS_FINE_LOCATION) !==
+                PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this@MainActivity,
+                            Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(this@MainActivity,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            } else {
+                ActivityCompat.requestPermissions(this@MainActivity,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            }
+        }
+        getLastLocation()
     }
 
-    //Makes sure you have access permissions (otherwise, requests it) and gives you the last location. Saves battery.
-    public override fun onStart() {
-        super.onStart()
-        if (!checkPermissions()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions()
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                            grantResults: IntArray) {
+        when (requestCode) {
+            1 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    if ((ContextCompat.checkSelfPermission(this@MainActivity,
+                                    Manifest.permission.ACCESS_FINE_LOCATION) ===
+                                    PackageManager.PERMISSION_GRANTED)) {
+                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
+                return
             }
-        } else {
-            getLastLocation()
         }
     }
+
+
+
 
     //Request a GPS location in the background and, when successful, stores latitude, longitude, and executes.
     private fun getLastLocation() {
-        fusedLocationClient?.lastLocation!!.addOnCompleteListener(this) { task ->
-            if (task.isSuccessful && task.result != null) {
-                var lastLocation = task.result
-                latitude = (lastLocation)!!.latitude
-                longitude = (lastLocation)!!.longitude
-                requestWeather()
-                requestGeoCode()
 
-            } else {
-                Log.w(TAG, "getLastLocation:exception", task.exception)
-                showMessage("No location detected. Make sure location is enabled on the device.")
-            }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
         }
-    }
-
-    // The following set of functions ensures we have the right permissions. Otherwise, it requests them.
-    private fun checkPermissions(): Boolean {
-        val permissionState = ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        )
-        return permissionState == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(
-                this@MainActivity,
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                REQUEST_PERMISSIONS_REQUEST_CODE
-        )
-    }
-
-    private fun requestPermissions() {
-        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        )
-        if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.")
-            showSnackbar("Location permission is needed for core functionality", "Okay",
-                    View.OnClickListener {
-                        startLocationPermissionRequest()
-                    })
-        } else {
-            startLocationPermissionRequest()
-        }
-    }
-
-    private fun showMessage(string: String) {
-        Toast.makeText(this@MainActivity, string, Toast.LENGTH_LONG).show()
-    }
-
-    private fun showSnackbar(
-            mainTextStringId: String, actionStringId: String,
-            listener: View.OnClickListener
-    ) {
-        Toast.makeText(this@MainActivity, mainTextStringId, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<String>,
-            grantResults: IntArray
-    ) {
-        Log.i(TAG, "onRequestPermissionResult")
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            when {
-                grantResults.isEmpty() -> {
-                    // If user interaction was interrupted, the permission request is cancelled and you
-                    // receive empty arrays.
+        fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        latitude = location.latitude
+                        longitude = location.longitude
+                        requestWeather()
+                        requestGeoCode()
+                    }
+                    //We didn't have any lastlocation saved, get a new location.
+                    else {
+                        //Start a new request.
+                        startLocationUpdates()
+                    }
                 }
-                grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
-                    // Permission granted.
-                    getLastLocation()
-                }
-                else -> {
-                    showSnackbar("Permission was denied", "Settings",
-                            View.OnClickListener {
-                                // Build intent that displays the App settings screen.
-                                val intent = Intent()
-                                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                val uri = Uri.fromParts(
-                                        "package",
-                                        Build.DISPLAY, null
-                                )
-                                intent.data = uri
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                                startActivity(intent)
-                            }
-                    )
-                }
-            }
-        }
-    }
-
-    companion object {
-        private val TAG = "LocationProvider"
-        private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
     }
 
 
@@ -256,7 +245,7 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
      * Downloads an icon from openWeather according to the icon code and shows it in the interface.
      * @param code string containing the icon code
      */
-    fun showWeatherIcon(code: String) {
+    private fun showWeatherIcon(code: String) {
         val weatherImageView: ImageView = findViewById<ImageView>(R.id.weatherIconContainer)
         val thisUrl = "https://openweathermap.org/img/wn/" + code + "@4x.png"
         if (thisUrl == weatherIconURL)
@@ -362,6 +351,12 @@ class MainActivity : AppCompatActivity() {//}, LocationListener {
                 } catch (e: java.lang.Exception) {
                 }
 
+                try {
+                    val city = add.getString("city")
+                    findViewById<TextView>(R.id.address).text = city
+                    return@StringRequest
+                } catch (e: java.lang.Exception) {
+                }
                 findViewById<TextView>(R.id.address).text = areaTextOpenWeather
             },
             {
