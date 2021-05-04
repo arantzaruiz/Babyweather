@@ -228,8 +228,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     //We didn't have any lastlocation saved, get a new location.
                     else {
-                        //Start a new request.
-                        startLocationUpdates()
+                        //We will pull the data from the gps.
                     }
                 }
     }
@@ -379,7 +378,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun requestWeatherHourly() {
         val url = "https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=current,minutely,daily,alerts&units=metric&appid=$API"
 
@@ -392,7 +390,7 @@ class MainActivity : AppCompatActivity() {
                         val thisHour = array.getJSONObject(i)
 
                         //Time in UTC
-                        var utcTime = thisHour.getString("dt")
+                        var utcTimeRaw = thisHour.getString("dt")
                         val temp = roundToInt(thisHour.getString("temp")) + "°C"
                         val realFeel = roundToInt(thisHour.getString("feels_like")) + "°C"
                         val weather = thisHour.getJSONArray("weather").getJSONObject(0)
@@ -400,55 +398,45 @@ class MainActivity : AppCompatActivity() {
                         val weatherIcon = weather.getString("icon")
 
 
-                        val date = Date(utcTime.toInt() * 1000L)
-                        val sdf = SimpleDateFormat("HH")
-                        utcTime = sdf.format(date)
+                        val utcTime = Date(utcTimeRaw.toLong() * 1000).hours.toString()
 
 
-                        when (i) {
-                            0 -> {
-                                showWeatherIcon(weatherIcon, R.id.icon0, 1)
-                                findViewById<TextView>(R.id.time0).text = utcTime
-                                findViewById<TextView>(R.id.temp0).text = temp
-                            }
-                            1 -> {
-                                showWeatherIcon(weatherIcon, R.id.icon1, 1)
-                                findViewById<TextView>(R.id.time1).text = utcTime
-                                findViewById<TextView>(R.id.temp1).text = temp
-                            }
-                            2 -> {
-                                showWeatherIcon(weatherIcon, R.id.icon2, 1)
-                                findViewById<TextView>(R.id.time2).text = utcTime
-                                findViewById<TextView>(R.id.temp2).text = temp
-                            }
-                            3 -> {
-                                showWeatherIcon(weatherIcon, R.id.icon3, 1)
-                                findViewById<TextView>(R.id.time3).text = utcTime
-                                findViewById<TextView>(R.id.temp3).text = temp
-                            }
-                            4 -> {
-                                showWeatherIcon(weatherIcon, R.id.icon4, 1)
-                                findViewById<TextView>(R.id.time4).text = utcTime
-                                findViewById<TextView>(R.id.temp4).text = temp
-                            }
-                            5 -> {
-                                showWeatherIcon(weatherIcon, R.id.icon5, 1)
-                                findViewById<TextView>(R.id.time2).text = utcTime
-                                findViewById<TextView>(R.id.temp2).text = temp
-                            }
-                            6 -> {
-                                showWeatherIcon(weatherIcon, R.id.icon6, 1)
-                                findViewById<TextView>(R.id.time6).text = utcTime
-                                findViewById<TextView>(R.id.temp6).text = temp
-                            }
-                            7 -> {
-                                showWeatherIcon(weatherIcon, R.id.icon7, 1)
-                                findViewById<TextView>(R.id.time7).text = utcTime
-                                findViewById<TextView>(R.id.temp7).text = temp
-                            }
+                        if (i == 0) {
+                            showWeatherIcon(weatherIcon, R.id.icon0, 1)
+                            findViewById<TextView>(R.id.time0).text = utcTime
+                            findViewById<TextView>(R.id.temp0).text = temp
+                        } else if (i == 1) {
+                            showWeatherIcon(weatherIcon, R.id.icon1, 1)
+                            findViewById<TextView>(R.id.time1).text = utcTime
+                            findViewById<TextView>(R.id.temp1).text = temp
+                        } else if (i == 2) {
+                            showWeatherIcon(weatherIcon, R.id.icon2, 1)
+                            findViewById<TextView>(R.id.time2).text = utcTime
+                            findViewById<TextView>(R.id.temp2).text = temp
+                        } else if (i == 3) {
+                            showWeatherIcon(weatherIcon, R.id.icon3, 1)
+                            findViewById<TextView>(R.id.time3).text = utcTime
+                            findViewById<TextView>(R.id.temp3).text = temp
+                        } else if (i == 4) {
+                            showWeatherIcon(weatherIcon, R.id.icon4, 1)
+                            findViewById<TextView>(R.id.time4).text = utcTime
+                            findViewById<TextView>(R.id.temp4).text = temp
+                        } else if (i == 5) {
+                            showWeatherIcon(weatherIcon, R.id.icon5, 1)
+                            findViewById<TextView>(R.id.time5).text = utcTime
+                            findViewById<TextView>(R.id.temp5).text = temp
+                        } else if (i == 6) {
+                            showWeatherIcon(weatherIcon, R.id.icon6, 1)
+                            findViewById<TextView>(R.id.time6).text = utcTime
+                            findViewById<TextView>(R.id.temp6).text = temp
+                        } else if (i == 7) {
+                            showWeatherIcon(weatherIcon, R.id.icon7, 1)
+                            findViewById<TextView>(R.id.time7).text = utcTime
+                            findViewById<TextView>(R.id.temp7).text = temp
+                        } else {
+                            //Ignore for now
+                            //return@StringRequest
                         }
-
-
                     }
                 },
                 Response.ErrorListener {
