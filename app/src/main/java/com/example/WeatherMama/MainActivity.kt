@@ -112,17 +112,6 @@ class MainActivity : AppCompatActivity() {
 
         queue = Volley.newRequestQueue(this)
 
-        //Start the icons for hourly weather request.
-        var recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-        val data = arrayListOf<String>();
-        for (i in 1..48) {
-            data.add("Item " + i)
-        }
-
-        val adapter = CustomAdapter(this, data)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
-
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
@@ -388,6 +377,10 @@ class MainActivity : AppCompatActivity() {
     private fun requestWeatherHourly() {
         val url = "https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=current,minutely,daily,alerts&units=metric&appid=$API"
 
+        val temperatures = arrayListOf<String>();
+        val hours = arrayListOf<String>();
+        val icons = arrayListOf<String>();
+
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(Request.Method.GET, url,
                 { response ->
@@ -408,42 +401,9 @@ class MainActivity : AppCompatActivity() {
                         val utcTime = Date(utcTimeRaw.toLong() * 1000).hours.toString()
 
 
-               /*         if (i == 0) {
-                            showWeatherIcon(weatherIcon, R.id.icon0, 2)
-                            findViewById<TextView>(R.id.time0).text = utcTime
-                            findViewById<TextView>(R.id.temp0).text = temp
-                        } else if (i == 1) {
-                            showWeatherIcon(weatherIcon, R.id.icon1, 2)
-                            findViewById<TextView>(R.id.time1).text = utcTime
-                            findViewById<TextView>(R.id.temp1).text = temp
-                        } else if (i == 2) {
-                            showWeatherIcon(weatherIcon, R.id.icon2, 2)
-                            findViewById<TextView>(R.id.time2).text = utcTime
-                            findViewById<TextView>(R.id.temp2).text = temp
-                        } else if (i == 3) {
-                            showWeatherIcon(weatherIcon, R.id.icon3, 2)
-                            findViewById<TextView>(R.id.time3).text = utcTime
-                            findViewById<TextView>(R.id.temp3).text = temp
-                        } else if (i == 4) {
-                            showWeatherIcon(weatherIcon, R.id.icon4, 2)
-                            findViewById<TextView>(R.id.time4).text = utcTime
-                            findViewById<TextView>(R.id.temp4).text = temp
-                        } else if (i == 5) {
-                            showWeatherIcon(weatherIcon, R.id.icon5, 2)
-                            findViewById<TextView>(R.id.time5).text = utcTime
-                            findViewById<TextView>(R.id.temp5).text = temp
-                        } else if (i == 6) {
-                            showWeatherIcon(weatherIcon, R.id.icon6, 2)
-                            findViewById<TextView>(R.id.time6).text = utcTime
-                            findViewById<TextView>(R.id.temp6).text = temp
-                        } else if (i == 7) {
-                            showWeatherIcon(weatherIcon, R.id.icon7, 2)
-                            findViewById<TextView>(R.id.time7).text = utcTime
-                            findViewById<TextView>(R.id.temp7).text = temp
-                        } else {
-                            //Ignore for now
-                            //return@StringRequest
-                        }*/
+                        temperatures.add(temp)
+                        hours.add(utcTime)
+                        icons.add(weatherIcon)
                     }
                 },
                 Response.ErrorListener {
@@ -452,6 +412,12 @@ class MainActivity : AppCompatActivity() {
 
         // Add the request to the RequestQueue.
         queue!!.add(stringRequest)
+
+        //Start the icons for hourly weather request.
+        var recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+        val adapter = CustomAdapter(this, temperatures, hours, icons)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
     }
 
 

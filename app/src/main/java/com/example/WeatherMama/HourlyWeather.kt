@@ -7,7 +7,47 @@ import android.widget.ImageView
 import android.widget.TextView
 import java.util.ArrayList
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
+
+class CustomAdapter(private val context: Context, private val times: ArrayList<String>,private val temperatures: ArrayList<String>,private val icons: ArrayList<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    lateinit var time: TextView
+    lateinit var temp: TextView
+    lateinit var icon: ImageView
+
+    private inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            time = itemView.findViewById(R.id.time)
+            temp = itemView.findViewById(R.id.temp)
+            icon = itemView.findViewById(R.id.icon)
+        }
+
+        internal fun bind(position: Int) {
+            val thisUrl = "https://openweathermap.org/img/wn/" + icons[position] + "@2x.png"
+            Glide.with(context)
+                .load(thisUrl)
+                .into(icon)
+            time.text = times[position]
+            temp.text = temperatures[position]
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.hourly, parent, false))
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as ViewHolder).bind(position)
+    }
+
+    override fun getItemCount(): Int {
+        return times.size
+    }
+}
+
+/*
 class CustomAdapter(private val context: Context, private val list: ArrayList<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     lateinit var time: TextView
@@ -53,7 +93,7 @@ class CustomAdapter(private val context: Context, private val list: ArrayList<St
     }
 
 }
-
+*/
 class HourlyWeather {
     var temperature :String = ""
     var realFeel :String = ""
