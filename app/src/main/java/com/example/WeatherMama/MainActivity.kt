@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -26,6 +27,8 @@ import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.round
+import androidx.recyclerview.widget.RecyclerView
+
 
 class MainActivity : AppCompatActivity() {
     //Global vars used in the entire class.
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private var areaTextOpenWeather: String = ""
     // Instantiate the RequestQueue used for Json requests.
     private var queue : RequestQueue? = null
+
 
     //Define the temperature ranges.
     enum class TemperatureRange { //enum assigns numeric values from 0 to 6 to the weather statuses below.
@@ -108,6 +112,17 @@ class MainActivity : AppCompatActivity() {
 
         queue = Volley.newRequestQueue(this)
 
+        //Start the icons for hourly weather request.
+        var recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+        val data = arrayListOf<String>();
+        for (i in 1..48) {
+            data.add("Item " + i)
+        }
+
+        val adapter = CustomAdapter(this, data)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
@@ -130,7 +145,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun updateTemperatureRange(realFeel: String, currentTemperature: String) {
 
-        var temp: Double = 0.0
+        var temp: Double
 
         try {
             temp = currentTemperature.toDouble()    //Convert the string to a number.
@@ -138,7 +153,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        var thisTemperatureRange: TemperatureRange = TemperatureRange.Undefined
+        var thisTemperatureRange: TemperatureRange
 
         if (temp > 25) thisTemperatureRange = TemperatureRange.Hot
         else if (temp > 20) thisTemperatureRange = TemperatureRange.Warm
@@ -244,13 +259,9 @@ class MainActivity : AppCompatActivity() {
         if (thisUrl == weatherIconURL)
             return
         weatherIconURL = thisUrl
-        if (weatherIconURL !== null) {
-            Glide.with(this)
-                    .load(weatherIconURL)
-                    .into(weatherImageView)
-        } else {
-            weatherImageView.setImageResource(R.drawable.ic_launcher_background)
-        }
+        Glide.with(this)
+                .load(weatherIconURL)
+                .into(weatherImageView)
     }
 
     /**
@@ -261,15 +272,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun showWeatherIcon(code: String, iconResource: Int, iconQuality: Int) {
         val view: ImageView = findViewById<ImageView>(iconResource)
-        val thisUrl = "https://openweathermap.org/img/wn/" + code + "@2x.png"
+        val thisUrl = "https://openweathermap.org/img/wn/" + code + "@" + iconQuality.toString() + "x.png"
 
-        if (thisUrl !== null) {
-            Glide.with(this)
-                    .load(thisUrl)
-                    .into(view)
-        } else {
-            view.setImageResource(R.drawable.ic_launcher_background)
-        }
+        Glide.with(this)
+                .load(thisUrl)
+                .into(view)
     }
 
 
@@ -282,7 +289,7 @@ class MainActivity : AppCompatActivity() {
                     val jsonObj = JSONObject(response)
                     val main = jsonObj.getJSONObject("main")
                     val sys = jsonObj.getJSONObject("sys")
-                    val wind = jsonObj.getJSONObject("wind")
+                   // val wind = jsonObj.getJSONObject("wind")
                     val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
 
                     val tempDouble = main.getString("temp")
@@ -394,49 +401,49 @@ class MainActivity : AppCompatActivity() {
                         val temp = roundToInt(thisHour.getString("temp")) + "°C"
                         val realFeel = roundToInt(thisHour.getString("feels_like")) + "°C"
                         val weather = thisHour.getJSONArray("weather").getJSONObject(0)
-                        val weatherDescription = weather.getString("description")
+                        //val weatherDescription = weather.getString("description")
                         val weatherIcon = weather.getString("icon")
 
 
                         val utcTime = Date(utcTimeRaw.toLong() * 1000).hours.toString()
 
 
-                        if (i == 0) {
-                            showWeatherIcon(weatherIcon, R.id.icon0, 1)
+               /*         if (i == 0) {
+                            showWeatherIcon(weatherIcon, R.id.icon0, 2)
                             findViewById<TextView>(R.id.time0).text = utcTime
                             findViewById<TextView>(R.id.temp0).text = temp
                         } else if (i == 1) {
-                            showWeatherIcon(weatherIcon, R.id.icon1, 1)
+                            showWeatherIcon(weatherIcon, R.id.icon1, 2)
                             findViewById<TextView>(R.id.time1).text = utcTime
                             findViewById<TextView>(R.id.temp1).text = temp
                         } else if (i == 2) {
-                            showWeatherIcon(weatherIcon, R.id.icon2, 1)
+                            showWeatherIcon(weatherIcon, R.id.icon2, 2)
                             findViewById<TextView>(R.id.time2).text = utcTime
                             findViewById<TextView>(R.id.temp2).text = temp
                         } else if (i == 3) {
-                            showWeatherIcon(weatherIcon, R.id.icon3, 1)
+                            showWeatherIcon(weatherIcon, R.id.icon3, 2)
                             findViewById<TextView>(R.id.time3).text = utcTime
                             findViewById<TextView>(R.id.temp3).text = temp
                         } else if (i == 4) {
-                            showWeatherIcon(weatherIcon, R.id.icon4, 1)
+                            showWeatherIcon(weatherIcon, R.id.icon4, 2)
                             findViewById<TextView>(R.id.time4).text = utcTime
                             findViewById<TextView>(R.id.temp4).text = temp
                         } else if (i == 5) {
-                            showWeatherIcon(weatherIcon, R.id.icon5, 1)
+                            showWeatherIcon(weatherIcon, R.id.icon5, 2)
                             findViewById<TextView>(R.id.time5).text = utcTime
                             findViewById<TextView>(R.id.temp5).text = temp
                         } else if (i == 6) {
-                            showWeatherIcon(weatherIcon, R.id.icon6, 1)
+                            showWeatherIcon(weatherIcon, R.id.icon6, 2)
                             findViewById<TextView>(R.id.time6).text = utcTime
                             findViewById<TextView>(R.id.temp6).text = temp
                         } else if (i == 7) {
-                            showWeatherIcon(weatherIcon, R.id.icon7, 1)
+                            showWeatherIcon(weatherIcon, R.id.icon7, 2)
                             findViewById<TextView>(R.id.time7).text = utcTime
                             findViewById<TextView>(R.id.temp7).text = temp
                         } else {
                             //Ignore for now
                             //return@StringRequest
-                        }
+                        }*/
                     }
                 },
                 Response.ErrorListener {

@@ -113,450 +113,463 @@
 
             </TextView>
 
-        </RelativeLayout>
+                    </RelativeLayout>
+        <!--
+                            <LinearLayout
+                                android:id="@+id/hourlyIconsLinearLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@+id/detailsContainer"
+                                android:layout_below="@+id/overviewContainer"
+                                android:layout_marginTop="17dp"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal"
+                                android:weightSum="6">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.8"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/time0"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="4pm"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp"></Space>
+
+                                    <ImageView
+                                        android:id="@+id/icon0"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/bl15lesstop">
+
+                                    </ImageView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp">
+
+                                    </Space>
+
+                                    <TextView
+                                        android:id="@+id/temp0"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="8°C"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+                                </LinearLayout>
+
+                                <Space
+                                    android:layout_width="10dp"
+                                    android:layout_height="wrap_content">
+
+                                </Space>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.8"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/time1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="4pm"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp"></Space>
+
+                                    <ImageView
+                                        android:id="@+id/icon1"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/bl15lesstop">
+
+                                    </ImageView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp">
+
+                                    </Space>
+
+                                    <TextView
+                                        android:id="@+id/temp1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="8°C"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+                                </LinearLayout>
+
+                                <Space
+                                    android:layout_width="10dp"
+                                    android:layout_height="wrap_content"></Space>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.8"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/time2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="4pm"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp"></Space>
+
+                                    <ImageView
+                                        android:id="@+id/icon2"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/bl15lesstop">
+
+                                    </ImageView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp">
+
+                                    </Space>
+
+                                    <TextView
+                                        android:id="@+id/temp2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="8°C"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+                                </LinearLayout>
+
+                                <Space
+                                    android:layout_width="10dp"
+                                    android:layout_height="wrap_content"></Space>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.8"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/time3"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="4pm"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp"></Space>
+
+                                    <ImageView
+                                        android:id="@+id/icon3"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/bl15lesstop">
+
+                                    </ImageView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp">
+
+                                    </Space>
+
+                                    <TextView
+                                        android:id="@+id/temp3"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="8°C"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+                                </LinearLayout>
+
+                                <Space
+                                    android:layout_width="10dp"
+                                    android:layout_height="wrap_content"></Space>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.8"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/time4"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="4pm"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp"></Space>
+
+                                    <ImageView
+                                        android:id="@+id/icon4"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/bl15lesstop">
+
+                                    </ImageView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp">
+
+                                    </Space>
+
+                                    <TextView
+                                        android:id="@+id/temp4"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="8°C"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+                                </LinearLayout>
+
+                                <Space
+                                    android:layout_width="10dp"
+                                    android:layout_height="wrap_content"></Space>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.8"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/time5"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="4pm"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp"></Space>
+
+                                    <ImageView
+                                        android:id="@+id/icon5"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/bl15lesstop">
+
+                                    </ImageView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp">
+
+                                    </Space>
+
+                                    <TextView
+                                        android:id="@+id/temp5"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="8°C"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+                                </LinearLayout>
+
+                                <Space
+                                    android:layout_width="10dp"
+                                    android:layout_height="wrap_content"></Space>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.8"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/time6"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="4pm"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp"></Space>
+
+                                    <ImageView
+                                        android:id="@+id/icon6"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/bl15lesstop">
+
+                                    </ImageView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp">
+
+                                    </Space>
+
+                                    <TextView
+                                        android:id="@+id/temp6"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="8°C"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+                                </LinearLayout>
+
+                                <Space
+                                    android:layout_width="10dp"
+                                    android:layout_height="wrap_content"></Space>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.8"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/time7"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="4pm"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp"></Space>
+
+                                    <ImageView
+                                        android:id="@+id/icon7"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/bl15lesstop">
+
+                                    </ImageView>
+
+                                    <Space
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="5dp">
+
+                                    </Space>
+
+                                    <TextView
+                                        android:id="@+id/temp7"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center"
+                                        android:text="8°C"
+                                        android:textSize="12dp">
+
+                                    </TextView>
+                                </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"></Space>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"></Space>
+
+
+                </LinearLayout>
+        -->
+
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_above="@+id/detailsContainer"
             android:layout_below="@+id/overviewContainer"
-            android:layout_marginTop="17dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal"
-            android:weightSum="6">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view"
+            android:layout_marginTop="0dp"
+            tools:listitem="@layout/hourly"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/time0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:id="@+id/icon0"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content">
-
-            </Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/time1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:id="@+id/icon1"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/time2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:id="@+id/icon2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/time3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:id="@+id/icon3"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/time4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:id="@+id/icon4"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/time5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:id="@+id/icon5"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/time6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:id="@+id/icon6"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/time7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="4pm"
-                    android:textSize="12dp">
-
-                </TextView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp"></Space>
-
-                <ImageView
-                    android:id="@+id/icon7"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/bl15lesstop">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="5dp">
-
-                </Space>
-
-                <TextView
-                    android:id="@+id/temp7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="8°C"
-                    android:textSize="12dp">
-
-                </TextView>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"></Space>
-
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/detailsContainer"
