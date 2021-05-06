@@ -8,6 +8,9 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -380,6 +383,10 @@ class MainActivity : AppCompatActivity() {
         val temperatures = arrayListOf<String>();
         val hours = arrayListOf<String>();
         val icons = arrayListOf<String>();
+        val realFeels = arrayListOf<String>();
+        val minutes = arrayListOf<String>();
+        val addressDescriptions = arrayListOf<String>();
+
 
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(Request.Method.GET, url,
@@ -398,12 +405,17 @@ class MainActivity : AppCompatActivity() {
                         val weatherIcon = weather.getString("icon")
 
 
-                        val utcTime = Date(utcTimeRaw.toLong() * 1000).hours.toString()
-
+                        val hour = Date(utcTimeRaw.toLong() * 1000).hours.toString()
+                        val minute = Date(utcTimeRaw.toLong() * 1000).minutes.toString()
+                        //val address = thisHour.getString("name")
 
                         temperatures.add(temp)
-                        hours.add(utcTime)
+                        hours.add(hour)
                         icons.add(weatherIcon)
+                        realFeels.add(realFeel)
+                        minutes.add(minute)
+                        addressDescriptions.add("")
+
                     }
                 },
                 Response.ErrorListener {
@@ -415,7 +427,10 @@ class MainActivity : AppCompatActivity() {
 
         //Start the icons for hourly weather request.
         var recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-        val adapter = CustomAdapter(this, temperatures, hours, icons)
+
+
+
+        val adapter = CustomAdapter(this, temperatures, realFeels, addressDescriptions, icons, hours, minutes, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
     }
@@ -430,4 +445,125 @@ class MainActivity : AppCompatActivity() {
     fun roundToInt(text: String): String {
         return round(text.toDouble()).toInt().toString()
     }
+
+
+    public fun updateValues (values : HourlyWeather) {
+        //findViewById<TextView>(R.id.status).text = values.weatherDescription.capitalize()
+        findViewById<TextView>(R.id.feelsLike).text = values.realFeel
+        findViewById<TextView>(R.id.temp).text = values.temperature
+
+        showWeatherIcon(values.iconName)
+        updateTemperatureRange(values.realFeel, values.temperature)
+        areaTextOpenWeather = values.addressDescription;
+    }
+
+    class HourlyWeather {
+        var temperature :String = ""
+        var realFeel :String = ""
+        var addressDescription :String = ""
+        var iconName : String = ""
+        var hour : String = ""
+        var position : Int = 0
+        var minutes : String = ""
+        lateinit var mainAct : MainActivity
+
+        lateinit var imageViewMainIcon : ImageView
+        lateinit var textViewTemp : TextView
+        lateinit var textViewHour : TextView
+
+        constructor(temperature : String,
+                    realFeel : String,
+                    addressDescription :String,
+                    iconName : String,
+                    hour : String,
+                    position : Int,
+                    minutes : String,
+                    imageViewMainIcon : ImageView,
+                    mainAct : MainActivity
+        ) {
+            this.temperature = temperature
+            this.realFeel = realFeel
+            this.addressDescription = addressDescription
+            this.iconName = iconName
+            this.hour = hour
+            this.position = position
+            this.minutes = minutes
+            this.imageViewMainIcon = imageViewMainIcon
+
+            this.imageViewMainIcon .setOnClickListener { view ->
+                mainAct.updateValues(this)
+            }
+            this.imageViewMainIcon .isClickable = true
+        }
+    }
+
+
+
+    class CustomAdapter(
+            private val context: Context,
+            private val temperatures : java.util.ArrayList<String>,
+            private val realFeels: java.util.ArrayList<String>,
+            private val addressDescriptions: java.util.ArrayList<String>,
+            private val iconNames: java.util.ArrayList<String>,
+            private val hours: java.util.ArrayList<String>,
+            private val minutes: java.util.ArrayList<String>,
+            private val mainAct : MainActivity
+    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+        lateinit var time: TextView
+        lateinit var temp: TextView
+        lateinit var icon: ImageView
+
+        var listHourlyWeather = arrayListOf<HourlyWeather>()
+
+        private inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+            init {
+                time = itemView.findViewById(R.id.time)
+                temp = itemView.findViewById(R.id.temp)
+                icon = itemView.findViewById(R.id.icon)
+            }
+
+            internal fun bind(position: Int) {
+
+                listHourlyWeather.add(HourlyWeather(
+                        temperatures[position],
+                        realFeels[position],
+                        addressDescriptions[position],
+                        iconNames[position],
+                        hours[position],
+                        position,
+                        minutes[position], icon, mainAct))
+
+
+
+                val thisUrl = "https://openweathermap.org/img/wn/" + iconNames[position] + "@2x.png"
+                Glide.with(context)
+                        .load(thisUrl)
+                        .into(icon)
+                time.text = hours[position]
+                temp.text = temperatures[position]
+
+
+
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            return ViewHolder(LayoutInflater.from(context).inflate(R.layout.hourly, parent, false))
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            (holder as ViewHolder).bind(position)
+        }
+
+        override fun getItemCount(): Int {
+            return temperatures.size
+        }
+    }
+
+
+
+
+
 }

@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:padding="10dp">
+    android:layout_margin="0dp"
+    android:padding="0dp">
 
     <LinearLayout
         android:id="@+id/hourlyLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
+        android:layout_weight="0"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="0dp">
 
         <TextView
             android:id="@+id/time"
@@ -27,19 +27,19 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="5dp"></Space>
+            android:layout_height="0dp"></Space>
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/bl15lesstop">
 
         </ImageView>
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="5dp">
+            android:layout_height="0dp">
 
         </Space>
 
