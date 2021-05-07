@@ -95,26 +95,47 @@ class MainActivity : AppCompatActivity() {
      * Initializes the 3 variables above. Must be listed in the same order as ExtraCold,..., Undefined. This method must be called from OnCreate.
      */
     private fun initVariables() {
-        iconsInnerLayerTop.add("il5orless")
-        iconsInnerLayerTop.add("bl5to10")
-        iconsInnerLayerTop.add("bl10to15")
-        iconsInnerLayerTop.add("bl15to20")
-        iconsInnerLayerTop.add("bl20to25")
-        iconsInnerLayerTop.add("bl25plus")
+        iconsInnerLayerTop.add("il5lesstop")
+        iconsInnerLayerTop.add("il5to10top")
+        iconsInnerLayerTop.add("il10to15top")
+        iconsInnerLayerTop.add("il15to20top")
+        iconsInnerLayerTop.add("il20to25top")
+        iconsInnerLayerTop.add("il25plustop")
 
-        iconsSecondLayer.add("sl5orless")
-        iconsSecondLayer.add("sl5to10")
-        iconsSecondLayer.add("sl10to15")
-        iconsSecondLayer.add("sl15to20")
-        iconsSecondLayer.add("sl20to25")
-        iconsSecondLayer.add("sl25plus")
+        iconsInnerLayerBottom.add("il5lessbottom")
+        iconsInnerLayerBottom.add("il5to10bottom")
+        iconsInnerLayerBottom.add("il10to15bottom")
+        iconsInnerLayerBottom.add("il15to20bottom")
+        iconsInnerLayerBottom.add("il20to25bottom")
+        iconsInnerLayerBottom.add("il25plusbottom")
 
-        iconsOuterLayer.add("ol5orless")
-        iconsOuterLayer.add("ol5to10")
-        iconsOuterLayer.add("ol10to15")
-        iconsOuterLayer.add("ol15to20")
-        iconsOuterLayer.add("ol20to25")
-        iconsOuterLayer.add("ol25plus")
+        iconsSecondLayerTop.add("sl5lesstop")
+        iconsSecondLayerTop.add("sl5to10top")
+        iconsSecondLayerTop.add("sl10to15top")
+        iconsSecondLayerTop.add("sl15to20top")
+        iconsSecondLayerTop.add("sl20to25top")
+        iconsSecondLayerTop.add("sl25plustop")
+
+        iconsSecondLayerBottom.add("sl5lessbottom")
+        iconsSecondLayerBottom.add("sl5to10bottom")
+        iconsSecondLayerBottom.add("sl10to15bottom")
+        iconsSecondLayerBottom.add("sl15to20bottom")
+        iconsSecondLayerBottom.add("sl20to25bottom")
+        iconsSecondLayerBottom.add("sl25plusbottom")
+
+        iconsOuterLayerTop.add("ol5lesstop")
+        iconsOuterLayerTop.add("ol5to10top")
+        iconsOuterLayerTop.add("ol10to15top")
+        iconsOuterLayerTop.add("ol15to20top")
+        iconsOuterLayerTop.add("ol20to25top")
+        iconsOuterLayerTop.add("ol25plustop")
+
+        iconsOuterLayerBottom.add("ol5lessbottom")
+        iconsOuterLayerBottom.add("ol5to10bottom")
+        iconsOuterLayerBottom.add("ol10to15bottom")
+        iconsOuterLayerBottom.add("ol15to20bottom")
+        iconsOuterLayerBottom.add("ol20to25bottom")
+        iconsOuterLayerBottom.add("ol25plusbottom")
 
         queue = Volley.newRequestQueue(this)
 
@@ -162,9 +183,12 @@ class MainActivity : AppCompatActivity() {
         temperatureRange = thisTemperatureRange
         if (temperatureRange == TemperatureRange.Undefined) return;
 
-        //findViewById<ImageView>(R.id.innerlayerImageView).setImageResource(getImageId(this, iconsBaseLayer.elementAt(temperatureRange.ordinal)))
-        //findViewById<ImageView>(R.id.secondlayerImageView).setImageResource(getImageId(this, iconsSecondLayer.elementAt(temperatureRange.ordinal)))
-        //findViewById<ImageView>(R.id.outerlayerImageView).setImageResource(getImageId(this, iconsOuterLayer.elementAt(temperatureRange.ordinal)))
+        findViewById<ImageView>(R.id.iltopimgview).setImageResource(getImageId(this, iconsInnerLayerTop.elementAt(temperatureRange.ordinal)))
+        findViewById<ImageView>(R.id.ilbottomimgview).setImageResource(getImageId(this, iconsInnerLayerBottom.elementAt(temperatureRange.ordinal)))
+        findViewById<ImageView>(R.id.sltopimgview).setImageResource(getImageId(this, iconsSecondLayerTop.elementAt(temperatureRange.ordinal)))
+        findViewById<ImageView>(R.id.slbottomimgview).setImageResource(getImageId(this, iconsSecondLayerBottom.elementAt(temperatureRange.ordinal)))
+        findViewById<ImageView>(R.id.oltopimgview).setImageResource(getImageId(this, iconsOuterLayerTop.elementAt(temperatureRange.ordinal)))
+        findViewById<ImageView>(R.id.olbottomimgview).setImageResource(getImageId(this, iconsOuterLayerBottom.elementAt(temperatureRange.ordinal)))
     }
 
     /**

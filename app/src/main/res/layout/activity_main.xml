@@ -266,9 +266,10 @@
                     </Space>
 
                     <ImageView
+                        android:id="@+id/iltopimgview"
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/bl15lesstop">
+                        android:src="@drawable/my_border">
 
                     </ImageView>
 
@@ -305,9 +306,10 @@
                         android:layout_height="10dp"></Space>
 
                     <ImageView
+                        android:id="@+id/sltopimgview"
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/sl5lesstop">
+                        android:src="@drawable/my_border">
 
                     </ImageView>
 
@@ -342,9 +344,10 @@
                     </Space>
 
                     <ImageView
+                        android:id="@+id/oltopimgview"
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ol5orless">
+                        android:src="@drawable/my_border">
 
                     </ImageView>
 
@@ -397,9 +400,10 @@
                     </Space>
 
                     <ImageView
+                        android:id="@+id/ilbottomimgview"
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/bl15lessbottom">
+                        android:src="@drawable/my_border">
 
                     </ImageView>
 
@@ -438,9 +442,10 @@
                     </Space>
 
                     <ImageView
+                        android:id="@+id/slbottomimgview"
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/sl5lessbottom">
+                        android:src="@drawable/my_border">
 
                     </ImageView>
 
@@ -479,9 +484,10 @@
                     </Space>
 
                     <ImageView
+                        android:id="@+id/olbottomimgview"
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ol5orless">
+                        android:src="@drawable/my_border">
 
                     </ImageView>
 

@@ -33,7 +33,7 @@
             android:id="@+id/icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/bl15lesstop">
+            android:src="@drawable/il5lesstop">
 
         </ImageView>
 
