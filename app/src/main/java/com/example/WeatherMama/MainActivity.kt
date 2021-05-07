@@ -54,8 +54,8 @@ class MainActivity : AppCompatActivity() {
     private var temperatureRange: TemperatureRange = TemperatureRange.Undefined
 
     //List with the names of the icons used for the different temperature ranges. This lists of names are empty yet, call the function initVariables to initialize everything.
-    private val iconsBaseLayerTop = ArrayList<String>()
-    private val iconsBaseLayerBottom = ArrayList<String>()
+    private val iconsInnerLayerTop = ArrayList<String>()
+    private val iconsInnerLayerBottom = ArrayList<String>()
     private val iconsSecondLayerTop = ArrayList<String>()
     private val iconsSecondLayerBottom = ArrayList<String>()
     private val iconsOuterLayerTop = ArrayList<String>()
@@ -95,12 +95,12 @@ class MainActivity : AppCompatActivity() {
      * Initializes the 3 variables above. Must be listed in the same order as ExtraCold,..., Undefined. This method must be called from OnCreate.
      */
     private fun initVariables() {
-        iconsBaseLayerTop.add("bl5orless")
-        iconsBaseLayerTop.add("bl5to10")
-        iconsBaseLayerTop.add("bl10to15")
-        iconsBaseLayerTop.add("bl15to20")
-        iconsBaseLayerTop.add("bl20to25")
-        iconsBaseLayerTop.add("bl25plus")
+        iconsInnerLayerTop.add("il5orless")
+        iconsInnerLayerTop.add("bl5to10")
+        iconsInnerLayerTop.add("bl10to15")
+        iconsInnerLayerTop.add("bl15to20")
+        iconsInnerLayerTop.add("bl20to25")
+        iconsInnerLayerTop.add("bl25plus")
 
         iconsSecondLayer.add("sl5orless")
         iconsSecondLayer.add("sl5to10")
