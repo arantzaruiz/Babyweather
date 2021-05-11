@@ -94,6 +94,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Launches GPS in background for Android 10.
+     */
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -279,6 +282,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     var lastLocations: String = ""
+
+    /**
+     * Returns API locations upon typing the initial location letters using the nominatim API.
+     */
     private fun updateLocations() {
 
         if (lastLocations == locations) return
@@ -329,6 +336,9 @@ class MainActivity : AppCompatActivity() {
         queue!!.add(stringRequest)
     }
 
+    /**
+     * Goes to the main layout.
+     */
     private fun go2MainLayout() {
         findViewById<RelativeLayout>(R.id.MainLayout).isVisible = true;
         findViewById<RelativeLayout>(R.id.MainLayout).isFocusable = true;
@@ -339,6 +349,9 @@ class MainActivity : AppCompatActivity() {
         imm?.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
     }
 
+    /**
+     * Changes the layout to the frame layout to input text
+     */
     private fun go2LocationLayout() {
         findViewById<RelativeLayout>(R.id.MainLayout).isVisible = false;
         findViewById<RelativeLayout>(R.id.MainLayout).isFocusable = false;
@@ -483,7 +496,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //Request a GPS location in the background and, when successful, stores latitude, longitude, and executes.
+    /**
+     * Request a GPS location in the background and, when successful, stores latitude, longitude, and executes.
+     */
     private fun getLastLocation() {
 
         if (ActivityCompat.checkSelfPermission(
@@ -549,7 +564,6 @@ class MainActivity : AppCompatActivity() {
      */
     private fun requestWeather() {
 
-        return  //Disabled for now, all the info requested in requestWeatherHourly to minimize calls to the openweather api. Work in progress...
         val url =
             "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$API"
 
@@ -753,7 +767,10 @@ class MainActivity : AppCompatActivity() {
         return round(text.toDouble()).toInt().toString()
     }
 
-
+    /**
+     * Updates the realfeel and temperature values shown in the UI with the given hpurly weather values.
+     * @param values HourlyWeather containing all weather values at that given time.
+     */
     public fun updateValues(values: HourlyWeather) {
         //findViewById<TextView>(R.id.status).text = values.weatherDescription.capitalize()
         findViewById<TextView>(R.id.feelsLike).text = values.realFeel
@@ -764,6 +781,9 @@ class MainActivity : AppCompatActivity() {
         areaTextOpenWeather = values.addressDescription;
     }
 
+    /**
+    * This class is used in an array to store weather, location and time information for every hour from the OpenWeather app.
+     */
     class HourlyWeather {
         var temperature: String = ""
         var realFeel: String = ""
@@ -805,7 +825,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    /** This class sends the hourly information to recyclerview.
+     *
+     */
     class CustomAdapter(
         private val context: Context,
         private val temperatures: java.util.ArrayList<String>,
