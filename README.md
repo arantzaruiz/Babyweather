@@ -11,5 +11,11 @@ List of `MyBabyWeather` categories mentioned below
 
 ## App Previews
 
+<p float="left">
+  <img src="https://github.com/arantzaruiz/Babyweather/blob/main/MBWMexico.jpeg" width="20%" height="20%" />
+  <img src="https://github.com/arantzaruiz/Babyweather/blob/main/MBWSantiago.jpeg" width="20%" height="20%" />
+  <img src="https://github.com/arantzaruiz/Babyweather/blob/main/MBWToronto.jpeg" width="20%" height="20%" /> 
+  <img src="https://github.com/arantzaruiz/Babyweather/blob/main/MBWNunavut.jpeg" width="20%" height="20%" />
+</p>
 
 Give a ⭐️ if this project helped you!
