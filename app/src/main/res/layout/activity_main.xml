@@ -205,7 +205,7 @@
                 android:fontFamily="sans-serif-thin"
                 android:orientation="vertical"
                 android:text="..."
-                android:textSize="70sp">
+                android:textSize="50sp">
 
             </TextView>
         </LinearLayout>
