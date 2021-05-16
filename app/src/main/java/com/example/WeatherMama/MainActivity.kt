@@ -32,6 +32,8 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.*
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -302,69 +304,43 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.Location3).text = ""
         findViewById<TextView>(R.id.Location4).text = ""
 
-        //Get the values, add the descriptions and the callbacks to the textviews.
-        if (locations == "") return
-        if (latitudes.isNotEmpty()) latitudes.clear()
-        if (longitudes.isNotEmpty()) longitudes.clear()
+        var ctx = this
 
-        var loc = TextUtils.htmlEncode(locations)
+        val job = GlobalScope.launch {
 
-        //Use the geocoder api
-        if (!this::geo.isInitialized){
-            geo = Geocoder(this, Locale.getDefault())
+            //Get the values, add the descriptions and the callbacks to the textviews.
+            if (locations == "") return@launch
+            if (latitudes.isNotEmpty()) latitudes.clear()
+            if (longitudes.isNotEmpty()) longitudes.clear()
+
+            var loc = TextUtils.htmlEncode(locations)
+
+            //Use the geocoder api
+            if (!ctx::geo.isInitialized) {
+                geo = Geocoder(ctx, Locale.getDefault())
+            }
+
+            var results = geo.getFromLocationName(loc, 1)
+            if (results.count() < 1) {
+                return@launch
+            }
+            try {
+                findViewById<TextView>(R.id.Location0).text =
+                    results[0].getAddressLine(0).toString()
+                longitudes.add(results[0].longitude)
+                latitudes.add(results[0].latitude)
+                return@launch
+            } catch (e: Exception) {
+            }
+
+            try {
+                findViewById<TextView>(R.id.Location0).text = results[0].featureName.toString()
+                longitudes.add(results[0].longitude)
+                latitudes.add(results[0].latitude)
+                return@launch
+            } catch (e: Exception) {
+            }
         }
-
-        var results = geo.getFromLocationName(loc,1)
-        if (results.count() < 1) {
-            return
-        }
-        try {
-            findViewById<TextView>(R.id.Location0).text = results[0].getAddressLine(0).toString()
-            longitudes.add(results[0].longitude)
-            latitudes.add(results[0].latitude)
-            return
-        }
-        catch (e: Exception) {}
-
-        try {
-            findViewById<TextView>(R.id.Location0).text = results[0].featureName.toString()
-            longitudes.add(results[0].longitude)
-            latitudes.add(results[0].latitude)
-            return
-        }
-        catch (e: Exception) {}
-
-/*   val url =
-    "https://nominatim.openstreetmap.org/search?q=$loc&format=json"
-// Request a string response from the provided URL.
-val stringRequest = StringRequest(Request.Method.GET, url,
-    { response ->
-        val array = JSONArray(response)
-
-        for (i in 0 until array.length()) {
-            val thisAddress = array.getJSONObject(i)
-
-            val address = thisAddress.getString("display_name")
-            val longS = thisAddress.getString("lon")
-            val latS = thisAddress.getString("lat")
-
-            longitudes.add(longS.toDouble())
-            latitudes.add(latS.toDouble())
-
-            if (i == 0) findViewById<TextView>(R.id.Location0).text = address
-            else if (i == 1) findViewById<TextView>(R.id.Location1).text = address
-            else if (i == 2) findViewById<TextView>(R.id.Location2).text = address
-            else if (i == 3) findViewById<TextView>(R.id.Location3).text = address
-            else findViewById<TextView>(R.id.Location4).text = address
-
-        }
-    },
-    Response.ErrorListener {
-        return@ErrorListener
-    })
-
-// Add the request to the RequestQueue.
-queue!!.add(stringRequest)*/
 }
 
 /**
@@ -597,54 +573,58 @@ private fun requestWeather() {
 val url =
     "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$API"
 
+
+
+    val job = GlobalScope.launch {
+
 // Request a string response from the provided URL.
-val stringRequest = StringRequest(Request.Method.GET, url,
-    { response ->
-        val jsonObj = JSONObject(response)
-        val main = jsonObj.getJSONObject("main")
-        val sys = jsonObj.getJSONObject("sys")
-        val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                val jsonObj = JSONObject(response)
+                val main = jsonObj.getJSONObject("main")
+                val sys = jsonObj.getJSONObject("sys")
+                val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
 
-        val tempDouble = main.getString("temp")
-        val temp = roundToInt(tempDouble) + "°C"
-        val feelsLikeDouble = main.getString("feels_like")
-        val feelsLike = "Feels like " + roundToInt(feelsLikeDouble) + "°C"
-        val weatherDescription = weather.getString("description")
-        var address : String = ""
-        val weatherIcon = weather.getString("icon")
+                val tempDouble = main.getString("temp")
+                val temp = roundToInt(tempDouble) + "°C"
+                val feelsLikeDouble = main.getString("feels_like")
+                val feelsLike = "Feels like " + roundToInt(feelsLikeDouble) + "°C"
+                val weatherDescription = weather.getString("description")
+                var address: String = ""
+                val weatherIcon = weather.getString("icon")
 
-        var name : String =  ""
-        try {
-            name = jsonObj.getString("name")
-        }
-        catch (e : Exception){
+                var name: String = ""
+                try {
+                    name = jsonObj.getString("name")
+                } catch (e: Exception) {
 
-        }
-        var country : String =  ""
-        try {
-            country =  ", " + sys.getString("country")
-        }
-        catch (e : Exception){
+                }
+                var country: String = ""
+                try {
+                    country = ", " + sys.getString("country")
+                } catch (e: Exception) {
 
-        }
+                }
 
-        address = name + country
+                address = name + country
 
-        findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
-        findViewById<TextView>(R.id.feelsLike).text = feelsLike
-        findViewById<TextView>(R.id.temp).text = temp
+                findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
+                findViewById<TextView>(R.id.feelsLike).text = feelsLike
+                findViewById<TextView>(R.id.temp).text = temp
 
-        showWeatherIcon(weatherIcon)
-        updateTemperatureRange(feelsLikeDouble, tempDouble)
+                showWeatherIcon(weatherIcon)
+                updateTemperatureRange(feelsLikeDouble, tempDouble)
 
-        areaTextOpenWeather = address;
-    },
-    Response.ErrorListener {
-        return@ErrorListener
-    })
+                areaTextOpenWeather = address;
+            },
+            Response.ErrorListener {
+                return@ErrorListener
+            })
 
-// Add the request to the RequestQueue.
-queue!!.add(stringRequest)
+        // Add the request to the RequestQueue.
+        queue!!.add(stringRequest)
+    }
+    //
 }
 
 
@@ -656,146 +636,155 @@ private fun requestGeoCode() {
 val url =
     "https://nominatim.openstreetmap.org/reverse?lat=$latitude&lon=$longitude&zoom=18&addressdetails=1&format=json"
 
+    val job = GlobalScope.launch {
 // Request a string response from the provided URL.
-val stringRequest = StringRequest(Request.Method.GET, url,
-    { response ->
-        val add: JSONObject
-        var replyJson = JSONObject(response)
-        try {
-            add = replyJson.getJSONObject("address")
-        } catch (e: java.lang.Exception) {
-            throw e
-        }
-        try {
-            val local = add.getString("neighbourhood")
-            val city = add.getString("city")
-            findViewById<TextView>(R.id.address).text = local + ", " + city
-            return@StringRequest
-        } catch (e: java.lang.Exception) {
-        }
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                val add: JSONObject
+                var replyJson = JSONObject(response)
+                try {
+                    add = replyJson.getJSONObject("address")
+                } catch (e: java.lang.Exception) {
+                    throw e
+                }
+                try {
+                    val local = add.getString("neighbourhood")
+                    val city = add.getString("city")
+                    findViewById<TextView>(R.id.address).text = local + ", " + city
+                    return@StringRequest
+                } catch (e: java.lang.Exception) {
+                }
 
-        try {
-            val local = add.getString("suburb")
-            val city = add.getString("city")
-            findViewById<TextView>(R.id.address).text = local + ", " + city
-            return@StringRequest
-        } catch (e: java.lang.Exception) {
-        }
+                try {
+                    val local = add.getString("suburb")
+                    val city = add.getString("city")
+                    findViewById<TextView>(R.id.address).text = local + ", " + city
+                    return@StringRequest
+                } catch (e: java.lang.Exception) {
+                }
 
-        try {
-            val local = add.getString("town")
-            val city = add.getString("city")
-            findViewById<TextView>(R.id.address).text = local + ", " + city
-            return@StringRequest
-        } catch (e: java.lang.Exception) {
-        }
+                try {
+                    val local = add.getString("town")
+                    val city = add.getString("city")
+                    findViewById<TextView>(R.id.address).text = local + ", " + city
+                    return@StringRequest
+                } catch (e: java.lang.Exception) {
+                }
 
-        try {
-            val local = add.getString("village")
-            val city = add.getString("city")
-            findViewById<TextView>(R.id.address).text = local + ", " + city
-            return@StringRequest
-        } catch (e: java.lang.Exception) {
-        }
+                try {
+                    val local = add.getString("village")
+                    val city = add.getString("city")
+                    findViewById<TextView>(R.id.address).text = local + ", " + city
+                    return@StringRequest
+                } catch (e: java.lang.Exception) {
+                }
 
-        try {
-            val local = add.getString("hamlet")
-            val city = add.getString("city")
-            findViewById<TextView>(R.id.address).text = local + ", " + city
-            return@StringRequest
-        } catch (e: java.lang.Exception) {
-        }
+                try {
+                    val local = add.getString("hamlet")
+                    val city = add.getString("city")
+                    findViewById<TextView>(R.id.address).text = local + ", " + city
+                    return@StringRequest
+                } catch (e: java.lang.Exception) {
+                }
 
-        try {
-            val city = add.getString("city")
-            findViewById<TextView>(R.id.address).text = city
-            return@StringRequest
-        } catch (e: java.lang.Exception) {
-        }
-        findViewById<TextView>(R.id.address).text = areaTextOpenWeather
-    },
-    {
-        findViewById<TextView>(R.id.address).text = areaTextOpenWeather
-    })
+                try {
+                    val city = add.getString("city")
+                    findViewById<TextView>(R.id.address).text = city
+                    return@StringRequest
+                } catch (e: java.lang.Exception) {
+                }
+                findViewById<TextView>(R.id.address).text = areaTextOpenWeather
+            },
+            {
+                findViewById<TextView>(R.id.address).text = areaTextOpenWeather
+            })
 
-// Add the request to the RequestQueue.
-queue!!.add(stringRequest)
+        // Add the request to the RequestQueue.
+        queue!!.add(stringRequest)
+    }
 }
 
 /**
 * Requests the hourly weather (48 hours) at a given pair of gps coordinates, stored in the variables latitude and longitude and parses the relevant info.
 */
 private fun requestWeatherHourly() {
-val url =
-    "https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=current,minutely,daily,alerts&units=metric&appid=$API"
+    val url =
+        "https://api.openweathermap.org/data/2.5/onecall?lat=$latitude&lon=$longitude&exclude=current,minutely,daily,alerts&units=metric&appid=$API"
 
-val temperatures = arrayListOf<String>();
-val hours = arrayListOf<String>();
-val icons = arrayListOf<String>();
-val realFeels = arrayListOf<String>();
-val minutes = arrayListOf<String>();
-val addressDescriptions = arrayListOf<String>();
+    val temperatures = arrayListOf<String>();
+    val hours = arrayListOf<String>();
+    val icons = arrayListOf<String>();
+    val realFeels = arrayListOf<String>();
+    val minutes = arrayListOf<String>();
+    val addressDescriptions = arrayListOf<String>();
 
+    var ctx = this
+
+
+    val job = GlobalScope.launch {
 // Request a string response from the provided URL.
-val stringRequest = StringRequest(Request.Method.GET, url,
-    { response ->
-        val main = JSONObject(response)
-        val array = main.getJSONArray("hourly")
-        for (i in 0 until array.length()) {
-            val thisHour = array.getJSONObject(i)
-            //val sys = thisHour.getJSONObject("sys")
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                val main = JSONObject(response)
+                val array = main.getJSONArray("hourly")
+                for (i in 0 until array.length()) {
+                    val thisHour = array.getJSONObject(i)
+                    //val sys = thisHour.getJSONObject("sys")
 
-            //Time in UTC
-            var utcTimeRaw = thisHour.getString("dt")
-            val tempDouble = thisHour.getString("temp")
-            val temp = roundToInt(tempDouble) + "°C"
-            val realFeelDouble = thisHour.getString("feels_like")
-            val realFeel = roundToInt(realFeelDouble) + "°C"
-            val weather = thisHour.getJSONArray("weather").getJSONObject(0)
-            val weatherIcon = weather.getString("icon")
-            val hour = Date(utcTimeRaw.toLong() * 1000).hours.toString()
-            val minute = Date(utcTimeRaw.toLong() * 1000).minutes.toString()
+                    //Time in UTC
+                    var utcTimeRaw = thisHour.getString("dt")
+                    val tempDouble = thisHour.getString("temp")
+                    val temp = roundToInt(tempDouble) + "°C"
+                    val realFeelDouble = thisHour.getString("feels_like")
+                    val realFeel = roundToInt(realFeelDouble) + "°C"
+                    val weather = thisHour.getJSONArray("weather").getJSONObject(0)
+                    val weatherIcon = weather.getString("icon")
+                    val hour = Date(utcTimeRaw.toLong() * 1000).hours.toString()
+                    val minute = Date(utcTimeRaw.toLong() * 1000).minutes.toString()
 
-            temperatures.add(temp)
-            hours.add(hour)
-            icons.add(weatherIcon)
-            realFeels.add(realFeel)
-            minutes.add(minute)
-            addressDescriptions.add("")
+                    temperatures.add(temp)
+                    hours.add(hour)
+                    icons.add(weatherIcon)
+                    realFeels.add(realFeel)
+                    minutes.add(minute)
+                    addressDescriptions.add("")
 
-            if (i==0) {
-                showWeatherIcon(weatherIcon)
-                updateTemperatureRange(realFeelDouble, tempDouble)
-            }
+                    if (i == 0) {
+                        showWeatherIcon(weatherIcon)
+                        updateTemperatureRange(realFeelDouble, tempDouble)
+                    }
 
-        }
-    },
-    Response.ErrorListener {
-        return@ErrorListener
-    })
+                }
+            },
+            Response.ErrorListener {
+                return@ErrorListener
+            })
 
 // Add the request to the RequestQueue.
-queue!!.add(stringRequest)
+        queue!!.add(stringRequest)
+    }
 
 //Start the icons for hourly weather request.
-var recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+        var recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
 
 
-val adapter = CustomAdapter(
-    this,
-    temperatures,
-    realFeels,
-    addressDescriptions,
-    icons,
-    hours,
-    minutes,
-    this
-)
-recyclerView.adapter = adapter
-recyclerView.layoutManager =
-    LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-adapter.notifyDataSetChanged();
-}
+        val adapter = CustomAdapter(
+            this,
+            temperatures,
+            realFeels,
+            addressDescriptions,
+            icons,
+            hours,
+            minutes,
+            this
+        )
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        adapter.notifyDataSetChanged();
+    }
+
+
 
 
 
@@ -922,7 +911,7 @@ private inner class ViewHolder internal constructor(itemView: View) :
             time.text = String.format("%02d", hour) + " PM" //hour.toString() + "PM"
         else
             time.text = String.format("%02d", hour) + " AM"
-        temp.text = temperatures[position] + "°C"
+        temp.text = temperatures[position]
     }
 }
 
