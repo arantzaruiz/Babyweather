@@ -216,7 +216,6 @@ class MainActivity : AppCompatActivity() {
             go2MainLayout()
             latitude = latitudes[0]
             longitude = longitudes[0]
-            requestWeather()
 
 
             findViewById<TextView>(R.id.address).text = findViewById<TextView>(R.id.Location0).text
@@ -252,7 +251,6 @@ class MainActivity : AppCompatActivity() {
                 var currentLocation = locationResult.lastLocation
                 longitude = currentLocation.longitude
                 latitude = currentLocation.latitude
-                requestWeather()
                 requestGeoCode()
                 requestWeatherHourly()
             }
@@ -497,7 +495,6 @@ fusedLocationClient.lastLocation
         if (location != null) {
             latitude = location.latitude
             longitude = location.longitude
-            requestWeather()
             requestGeoCode()
             requestWeatherHourly()
         }
@@ -534,68 +531,6 @@ val view: ImageView = findViewById<ImageView>(iconResource)
 val thisUrl =
     "https://openweathermap.org/img/wn/" + code + "@" + iconQuality.toString() + "x.png"
 Picasso.get().load(thisUrl).into(view);
-}
-
-/**
-* Requests the weather at the gps locations stores in the global variables longitude, latitude. Parses the results and extracts the icon, temperature, realfeel, name of the location and description of the weather.
-*/
-private fun requestWeather() {
-return
-val url =
-    "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$API"
-
-
-
-    val job = GlobalScope.launch {
-
-// Request a string response from the provided URL.
-        val stringRequest = StringRequest(Request.Method.GET, url,
-            { response ->
-                val jsonObj = JSONObject(response)
-                val main = jsonObj.getJSONObject("main")
-                val sys = jsonObj.getJSONObject("sys")
-                val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
-
-                val tempDouble = main.getString("temp")
-                val temp = roundToInt(tempDouble) + "°C"
-                val feelsLikeDouble = main.getString("feels_like")
-                val feelsLike = "Feels like " + roundToInt(feelsLikeDouble) + "°C"
-                val weatherDescription = weather.getString("description")
-                var address: String = ""
-                val weatherIcon = weather.getString("icon")
-
-                var name: String = ""
-                try {
-                    name = jsonObj.getString("name")
-                } catch (e: Exception) {
-
-                }
-                var country: String = ""
-                try {
-                    country = ", " + sys.getString("country")
-                } catch (e: Exception) {
-
-                }
-
-                address = name + country
-
-                findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
-                findViewById<TextView>(R.id.feelsLike).text = feelsLike
-                findViewById<TextView>(R.id.temp).text = temp
-
-                showWeatherIcon(weatherIcon)
-                updateTemperatureRange(feelsLikeDouble, tempDouble)
-
-                areaTextOpenWeather = address;
-            },
-            Response.ErrorListener {
-                return@ErrorListener
-            })
-
-        // Add the request to the RequestQueue.
-        queue!!.add(stringRequest)
-    }
-    //
 }
 
 
@@ -687,6 +622,7 @@ private fun requestWeatherHourly() {
     val icons = arrayListOf<String>();
     val realFeels = arrayListOf<String>();
     val fullDates = arrayListOf<String>();
+    val statuses = arrayListOf<String>();
     val addressDescriptions = arrayListOf<String>();
 
     var ctx = this
@@ -711,7 +647,7 @@ private fun requestWeatherHourly() {
                     val realFeel = roundToInt(realFeelDouble) + "°C"
                     val weather = thisHour.getJSONArray("weather").getJSONObject(0)
                     val weatherIcon = weather.getString("icon")
-
+                    val status = weather.getString("description")
                     val date = Date(utcTimeRaw.toLong() * 1000)
                     val hour = SimpleDateFormat("hh a" ).format(date) //date.hours.toString()
                     val weekDay = DateFormatSymbols().shortWeekdays.get(date.day+1)
@@ -729,6 +665,7 @@ private fun requestWeatherHourly() {
                     hours.add(hour)
                     icons.add(weatherIcon)
                     realFeels.add(realFeel)
+                    statuses.add (status)
                     addressDescriptions.add("")
 
                     if (i == 0) {
@@ -738,9 +675,10 @@ private fun requestWeatherHourly() {
 
                     if (first) {
                         //Update the UI
-                        findViewById<TextView>(R.id.feelsLike).text = realFeel
+                        findViewById<TextView>(R.id.feelsLike).text = "Feels like " + realFeel
                         findViewById<TextView>(R.id.temp).text = temp
                         findViewById<TextView>(R.id.time).text = fulldate
+                        findViewById<TextView>(R.id.status).text = status
                         showWeatherIcon(weatherIcon)
                         updateTemperatureRange(realFeel, temp)
                         //areaTextOpenWeather = addressDescription;
@@ -770,6 +708,7 @@ private fun requestWeatherHourly() {
             icons,
             hours,
             fullDates,
+            statuses,
             this
         )
         recyclerView.adapter = adapter
@@ -798,9 +737,10 @@ return round(text.toDouble()).toInt().toString()
 * @param values HourlyWeather containing all weather values at that given time.
 */
 public fun updateValues(values: HourlyWeather) {
-    findViewById<TextView>(R.id.feelsLike).text = values.realFeel
+    findViewById<TextView>(R.id.feelsLike).text = "Feels like " + values.realFeel
     findViewById<TextView>(R.id.temp).text = values.temperature
     findViewById<TextView>(R.id.time).text = values.fullDate
+    findViewById<TextView>(R.id.status).text = values.status
 
     showWeatherIcon(values.iconName)
     updateTemperatureRange(values.realFeel, values.temperature)
@@ -818,6 +758,7 @@ var iconName: String = ""
 var hour: String = ""
 var position: Int = 0
 var fullDate: String = ""
+    var status: String = ""
 lateinit var mainAct: MainActivity
 
 lateinit var imageViewMainIcon: ImageView
@@ -832,6 +773,7 @@ constructor(
     hour: String,
     position: Int,
     fullDate: String,
+    status: String,
     imageViewMainIcon: ImageView,
     mainAct: MainActivity
 ) {
@@ -842,6 +784,7 @@ constructor(
     this.hour = hour
     this.position = position
     this.fullDate = fullDate
+    this.status = status
     this.imageViewMainIcon = imageViewMainIcon
 
     this.imageViewMainIcon.setOnClickListener { view ->
@@ -862,6 +805,7 @@ private val addressDescriptions: java.util.ArrayList<String>,
 private val iconNames: java.util.ArrayList<String>,
 private val hours: java.util.ArrayList<String>,
 private val fullDate: java.util.ArrayList<String>,
+private val status: java.util.ArrayList<String>,
 private val mainAct: MainActivity
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -890,7 +834,7 @@ private inner class ViewHolder internal constructor(itemView: View) :
                 iconNames[position],
                 hours[position],
                 position,
-                fullDate[position], icon, mainAct
+                fullDate[position], status[position], icon, mainAct
             )
         )
 

@@ -15,10 +15,6 @@
         android:background="@drawable/gradient_bg"
         android:visibility="gone">
 
-
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,119 +116,120 @@
 
 
         <RelativeLayout
-        android:id="@+id/mainContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
-
-        <LinearLayout
-            android:id="@+id/weatherContainer"
+            android:id="@+id/mainContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="top"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
-            <TextView
-                android:id="@+id/address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Loading location"
-                android:textSize="24dp">
-
-            </TextView>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="1dp">
-
-            </Space>
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="7:49 PM"
-                android:textSize="22dp">
-
-            </TextView>
-            <Button
-                android:id="@+id/launchLocationInput"
-                android:textSize="8dp"
-                android:layout_width="110dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="0dp"
-                android:text="New Location" />
-
-            <ImageView
-                android:id="@+id/weatherIconContainer"
-                android:layout_width="82dp"
-                android:layout_height="78dp"
-                android:layout_gravity="center"
-                android:src="@drawable/a10d4x">
-
-            </ImageView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/addressContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/weatherContainer"
-            android:layout_marginTop="1dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Loading status"
-                android:textSize="16sp"
-                tools:layout_conversion_absoluteHeight="24dp"
-                tools:layout_conversion_absoluteWidth="64dp"
-                tools:layout_editor_absoluteX="174dp"
-                tools:layout_editor_absoluteY="25dp">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-thin"
-                android:orientation="vertical"
-                android:text="..."
-                android:textSize="50sp">
-
-            </TextView>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/overviewContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addressContainer"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="1dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/feelsLike"
+            <LinearLayout
+                android:id="@+id/weatherContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Loading location"
+                    android:textSize="24dp">
+
+                </TextView>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp">
+
+                </Space>
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="7:49 PM"
+                    android:textSize="22dp">
+
+                </TextView>
+
+                <Button
+                    android:id="@+id/launchLocationInput"
+                    android:layout_width="110dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="0dp"
+                    android:text="New Location"
+                    android:textSize="8dp" />
+
+                <ImageView
+                    android:id="@+id/weatherIconContainer"
+                    android:layout_width="82dp"
+                    android:layout_height="78dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/a10d4x">
+
+                </ImageView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/addressContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weatherContainer"
+                android:layout_marginTop="1dp"
                 android:gravity="center"
-                android:text="Feels like"
-                android:textSize="16dp">
+                android:orientation="vertical">
 
-            </TextView>
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading status"
+                    android:textSize="16sp"
+                    tools:layout_conversion_absoluteHeight="24dp"
+                    tools:layout_conversion_absoluteWidth="64dp"
+                    tools:layout_editor_absoluteX="174dp"
+                    tools:layout_editor_absoluteY="25dp">
 
-        </RelativeLayout>
+                </TextView>
+
+                <TextView
+                    android:id="@+id/temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:orientation="vertical"
+                    android:text="..."
+                    android:textSize="50sp">
+
+                </TextView>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/overviewContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addressContainer"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/feelsLike"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="Feels like"
+                    android:textSize="16dp">
+
+                </TextView>
+
+            </RelativeLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -245,390 +242,388 @@
                 tools:listitem="@layout/hourly" />
 
 
-
-        <LinearLayout
-            android:id="@+id/detailsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="1dp"
-            android:orientation="vertical">
-
-
-
-            <TextView
-                android:id="@+id/yourbabysoutfit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Your baby's outfit today:"
-                android:textSize="18dp">
-
-            </TextView>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp">
-
-            </Space>
-
             <LinearLayout
+                android:id="@+id/detailsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="1dp"
+                android:orientation="vertical">
 
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/yourbabysoutfit"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:text="Your baby's outfit today:"
+                    android:textSize="18dp">
 
-                    <TextView
-                        android:id="@+id/innerlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INNER LAYER"
-                        android:textSize="12dp">
-
-                    </TextView>
-                </LinearLayout>
+                </TextView>
 
                 <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp">
 
                 </Space>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
-                    <TextView
-                        android:id="@+id/secondlayer"
-                        android:layout_width="wrap_content"
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="SECOND LAYER"
-                        android:textSize="12dp">
+                        android:layout_weight="1.02"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                    </TextView>
+                        <TextView
+                            android:id="@+id/innerlayer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="INNER LAYER"
+                            android:textSize="12dp">
+
+                        </TextView>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content">
+
+                    </Space>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.02"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/secondlayer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SECOND LAYER"
+                            android:textSize="12dp">
+
+                        </TextView>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content">
+
+                    </Space>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.02"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/outerlayer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OUTER LAYER"
+                            android:textSize="12dp">
+
+                        </TextView>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content">
+
+                    </Space>
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp">
 
                 </Space>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
-                    <TextView
-                        android:id="@+id/outerlayer"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="OUTER LAYER"
-                        android:textSize="12dp">
+                        android:layout_weight="1.02"
+                        android:background="@drawable/my_border"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                    </TextView>
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <ImageView
+                            android:id="@+id/iltopimgview"
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/my_border">
+
+                        </ImageView>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp">
+
+                        </Space>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content">
+
+                    </Space>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.02"
+                        android:background="@drawable/my_border"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp"></Space>
+
+                        <ImageView
+                            android:id="@+id/sltopimgview"
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/my_border">
+
+                        </ImageView>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp"></Space>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"></Space>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.02"
+                        android:background="@drawable/my_border"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <ImageView
+                            android:id="@+id/oltopimgview"
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/my_border">
+
+                        </ImageView>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp">
+
+                        </Space>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content">
+
+                    </Space>
+
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp">
 
                 </Space>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.02"
+                        android:background="@drawable/my_border"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <ImageView
+                            android:id="@+id/ilbottomimgview"
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/my_border">
+
+                        </ImageView>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp">
+
+                        </Space>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content">
+
+                    </Space>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.02"
+                        android:background="@drawable/my_border"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <ImageView
+                            android:id="@+id/slbottomimgview"
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/my_border">
+
+                        </ImageView>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp">
+
+                        </Space>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content">
+
+                    </Space>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.02"
+                        android:background="@drawable/my_border"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp">
+
+                        </Space>
+
+                        <ImageView
+                            android:id="@+id/olbottomimgview"
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/my_border">
+
+                        </ImageView>
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp">
+
+                        </Space>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content">
+
+                    </Space>
+
+                </LinearLayout>
             </LinearLayout>
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="1dp">
-
-            </Space>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
-                    android:background="@drawable/my_border"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <ImageView
-                        android:id="@+id/iltopimgview"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/my_border">
-
-                    </ImageView>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp">
-
-                    </Space>
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
-
-                </Space>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
-                    android:background="@drawable/my_border"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp"></Space>
-
-                    <ImageView
-                        android:id="@+id/sltopimgview"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/my_border">
-
-                    </ImageView>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp"></Space>
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"></Space>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
-                    android:background="@drawable/my_border"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <ImageView
-                        android:id="@+id/oltopimgview"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/my_border">
-
-                    </ImageView>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp">
-
-                    </Space>
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
-
-                </Space>
-
-            </LinearLayout>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp">
-
-            </Space>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
-                    android:background="@drawable/my_border"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <ImageView
-                        android:id="@+id/ilbottomimgview"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/my_border">
-
-                    </ImageView>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp">
-
-                    </Space>
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
-
-                </Space>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
-                    android:background="@drawable/my_border"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <ImageView
-                        android:id="@+id/slbottomimgview"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/my_border">
-
-                    </ImageView>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp">
-
-                    </Space>
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
-
-                </Space>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.02"
-                    android:background="@drawable/my_border"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp">
-
-                    </Space>
-
-                    <ImageView
-                        android:id="@+id/olbottomimgview"
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/my_border">
-
-                    </ImageView>
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp">
-
-                    </Space>
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content">
-
-                </Space>
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </RelativeLayout>
+        </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/loader"
