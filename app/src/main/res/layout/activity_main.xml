@@ -148,6 +148,7 @@
                 android:layout_height="1dp">
 
             </Space>
+
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
@@ -234,14 +235,14 @@
         </RelativeLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_above="@+id/detailsContainer"
-            android:layout_below="@+id/overviewContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recycler_view"
-            android:layout_marginTop="20dp"
-            tools:listitem="@layout/hourly"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/detailsContainer"
+                android:layout_below="@+id/overviewContainer"
+                android:layout_marginTop="20dp"
+                tools:listitem="@layout/hourly" />
 
 
 

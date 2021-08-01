@@ -36,10 +36,17 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
+import java.time.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.round
 import kotlin.time.hours
+
+import java.util.Date;
+import java.time.Month;
+import java.time.LocalDate;
 
 
 class MainActivity : AppCompatActivity() {
@@ -214,45 +221,9 @@ class MainActivity : AppCompatActivity() {
 
             findViewById<TextView>(R.id.address).text = findViewById<TextView>(R.id.Location0).text
 
-            //requestGeoCode()
             requestWeatherHourly()
         }
-   /*     findViewById<TextView>(R.id.Location1).setOnClickListener {
-            if (findViewById<TextView>(R.id.Location1).text == "") return@setOnClickListener;
-            go2MainLayout()
-            latitude = latitudes[1]
-            longitude = longitudes[1]
-            requestWeather()
-            requestGeoCode()
-            requestWeatherHourly()
-        }
-        findViewById<TextView>(R.id.Location2).setOnClickListener {
-            if (findViewById<TextView>(R.id.Location2).text == "") return@setOnClickListener;
-            go2MainLayout()
-            latitude = latitudes[2]
-            longitude = longitudes[2]
-            requestWeather()
-            requestGeoCode()
-            requestWeatherHourly()
-        }
-        findViewById<TextView>(R.id.Location3).setOnClickListener {
-            if (findViewById<TextView>(R.id.Location3).text == "") return@setOnClickListener;
-            go2MainLayout()
-            latitude = latitudes[3]
-            longitude = longitudes[3]
-            requestWeather()
-            requestGeoCode()
-            requestWeatherHourly()
-        }
-        findViewById<TextView>(R.id.Location4).setOnClickListener {
-            if (findViewById<TextView>(R.id.Location4).text == "") return@setOnClickListener;
-            go2MainLayout()
-            latitude = latitudes[4]
-            longitude = longitudes[4]
-            requestWeather()
-            requestGeoCode()
-            requestWeatherHourly()
-        }*/
+
 
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object : Runnable {
@@ -569,7 +540,7 @@ Picasso.get().load(thisUrl).into(view);
 * Requests the weather at the gps locations stores in the global variables longitude, latitude. Parses the results and extracts the icon, temperature, realfeel, name of the location and description of the weather.
 */
 private fun requestWeather() {
-
+return
 val url =
     "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=$API"
 
@@ -715,11 +686,12 @@ private fun requestWeatherHourly() {
     val hours = arrayListOf<String>();
     val icons = arrayListOf<String>();
     val realFeels = arrayListOf<String>();
-    val minutes = arrayListOf<String>();
+    val fullDates = arrayListOf<String>();
     val addressDescriptions = arrayListOf<String>();
 
     var ctx = this
 
+    var first = true
 
     val job = GlobalScope.launch {
 // Request a string response from the provided URL.
@@ -739,19 +711,41 @@ private fun requestWeatherHourly() {
                     val realFeel = roundToInt(realFeelDouble) + "°C"
                     val weather = thisHour.getJSONArray("weather").getJSONObject(0)
                     val weatherIcon = weather.getString("icon")
-                    val hour = Date(utcTimeRaw.toLong() * 1000).hours.toString()
-                    val minute = Date(utcTimeRaw.toLong() * 1000).minutes.toString()
 
+                    val date = Date(utcTimeRaw.toLong() * 1000)
+                    val hour = SimpleDateFormat("hh a" ).format(date) //date.hours.toString()
+                    val weekDay = DateFormatSymbols().shortWeekdays.get(date.day+1)
+                    val month = DateFormatSymbols().shortMonths.get (date.month)
+                    val dayofMonth = SimpleDateFormat("dd").format(date)
+
+                    val time= SimpleDateFormat("hh a").format(date)
+
+                    //If the difference
+                    //val currentTime = SimpleDateFormat("hh:mm a").format(Calendar.getInstance().time)
+
+                    val fulldate = (weekDay + " " + dayofMonth + " " + month + " " + time).toString()
+                    fullDates.add (fulldate)
                     temperatures.add(temp)
                     hours.add(hour)
                     icons.add(weatherIcon)
                     realFeels.add(realFeel)
-                    minutes.add(minute)
                     addressDescriptions.add("")
 
                     if (i == 0) {
                         showWeatherIcon(weatherIcon)
                         updateTemperatureRange(realFeelDouble, tempDouble)
+                    }
+
+                    if (first) {
+                        //Update the UI
+                        findViewById<TextView>(R.id.feelsLike).text = realFeel
+                        findViewById<TextView>(R.id.temp).text = temp
+                        findViewById<TextView>(R.id.time).text = fulldate
+                        showWeatherIcon(weatherIcon)
+                        updateTemperatureRange(realFeel, temp)
+                        //areaTextOpenWeather = addressDescription;
+
+                        first = false
                     }
 
                 }
@@ -775,14 +769,16 @@ private fun requestWeatherHourly() {
             addressDescriptions,
             icons,
             hours,
-            minutes,
+            fullDates,
             this
         )
         recyclerView.adapter = adapter
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         adapter.notifyDataSetChanged();
-    }
+
+
+}
 
 
 
@@ -802,13 +798,13 @@ return round(text.toDouble()).toInt().toString()
 * @param values HourlyWeather containing all weather values at that given time.
 */
 public fun updateValues(values: HourlyWeather) {
-//findViewById<TextView>(R.id.status).text = values.weatherDescription.capitalize()
-findViewById<TextView>(R.id.feelsLike).text = values.realFeel
-findViewById<TextView>(R.id.temp).text = values.temperature
+    findViewById<TextView>(R.id.feelsLike).text = values.realFeel
+    findViewById<TextView>(R.id.temp).text = values.temperature
+    findViewById<TextView>(R.id.time).text = values.fullDate
 
-showWeatherIcon(values.iconName)
-updateTemperatureRange(values.realFeel, values.temperature)
-areaTextOpenWeather = values.addressDescription;
+    showWeatherIcon(values.iconName)
+    updateTemperatureRange(values.realFeel, values.temperature)
+    areaTextOpenWeather = values.addressDescription;
 }
 
 /**
@@ -821,7 +817,7 @@ var addressDescription: String = ""
 var iconName: String = ""
 var hour: String = ""
 var position: Int = 0
-var minutes: String = ""
+var fullDate: String = ""
 lateinit var mainAct: MainActivity
 
 lateinit var imageViewMainIcon: ImageView
@@ -835,7 +831,7 @@ constructor(
     iconName: String,
     hour: String,
     position: Int,
-    minutes: String,
+    fullDate: String,
     imageViewMainIcon: ImageView,
     mainAct: MainActivity
 ) {
@@ -845,7 +841,7 @@ constructor(
     this.iconName = iconName
     this.hour = hour
     this.position = position
-    this.minutes = minutes
+    this.fullDate = fullDate
     this.imageViewMainIcon = imageViewMainIcon
 
     this.imageViewMainIcon.setOnClickListener { view ->
@@ -865,11 +861,11 @@ private val realFeels: java.util.ArrayList<String>,
 private val addressDescriptions: java.util.ArrayList<String>,
 private val iconNames: java.util.ArrayList<String>,
 private val hours: java.util.ArrayList<String>,
-private val minutes: java.util.ArrayList<String>,
+private val fullDate: java.util.ArrayList<String>,
 private val mainAct: MainActivity
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-lateinit var time: TextView
+lateinit var timehourly: TextView
 lateinit var temp: TextView
 lateinit var icon: ImageView
 
@@ -879,7 +875,7 @@ private inner class ViewHolder internal constructor(itemView: View) :
     RecyclerView.ViewHolder(itemView) {
 
     init {
-        time = itemView.findViewById(R.id.time)
+        timehourly = itemView.findViewById(R.id.timehourly)
         temp = itemView.findViewById(R.id.temp)
         icon = itemView.findViewById(R.id.icon)
     }
@@ -894,23 +890,15 @@ private inner class ViewHolder internal constructor(itemView: View) :
                 iconNames[position],
                 hours[position],
                 position,
-                minutes[position], icon, mainAct
+                fullDate[position], icon, mainAct
             )
         )
 
 
         val thisUrl = "https://openweathermap.org/img/wn/" + iconNames[position] + "@2x.png"
         Picasso.get().load(thisUrl).into(icon);
-        var hour = hours[position].toInt()
-        var pm : Boolean = false
-        if (hour > 12 ) {
-            hour -= 12
-            pm = true
-        }
-        if (pm)
-            time.text = String.format("%02d", hour) + " PM" //hour.toString() + "PM"
-        else
-            time.text = String.format("%02d", hour) + " AM"
+
+        timehourly.text = hours[position.toInt()]
         temp.text = temperatures[position]
     }
 }
